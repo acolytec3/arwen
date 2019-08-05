@@ -101,8 +101,12 @@ function Web3ConsumerComponent() {
 
 function Arweave () {
   const context = useWeb3Context();
-
   const [arweaveURL, setarweaveURL] = React.useState()
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    console.log('Setting URL to ' + arweaveURL)
+  }
 
   async function setArweave (arweaveUrl)
   {
@@ -137,10 +141,23 @@ function Arweave () {
       )}
         {arweaveURL && <p>{arweaveURL}</p>}        
 
-         <button onClick={setArweave('http://arweave.supermagic.com')}>Set Arweave URL</button>
+          <form onSubmit={handleSubmit}>
+            <label>Arweave URL
+              <input 
+                type="text" 
+                value={arweaveURL} 
+                name="inputArweaveUrl" 
+                required 
+                />
+            </label>
+            <input type="submit" value="Submit" />  
+          </form>
+
       </React.Fragment>
     )
   }
   else return <p>Connection not active</p>
 }
 export default App;
+
+//          <button onClick={setArweave('http://arweave.cheese.one')}>Set Arweave URL</button>
