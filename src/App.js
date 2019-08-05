@@ -104,6 +104,17 @@ function Arweave () {
 
   const [arweaveURL, setarweaveURL] = React.useState()
 
+  async function setArweave (arweaveUrl)
+  {
+    const signer = context.library.getSigner()
+    var nameHash = ethers.utils.namehash('acolytec3.test')
+    const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, signer)
+    var tx = await publicResolver.setText(nameHash,'url',arweaveUrl)
+    console.log(tx.hash)
+    await tx.wait()
+    console.log(publicResolver.text(nameHash,'url'))
+   }
+  
   function getArweave ()
   {
     var nameHash = ethers.utils.namehash('acolytec3.test')
@@ -119,18 +130,14 @@ function Arweave () {
     return <p>Error</p>
   }
   if (context.active){
-    /*context.library.resolveName('acolytec3.text')
-    .then(resolvedAddress => {
-      console.log(resolvedAddress)
-      //var reverseLookup = context.library.lookupAddress(resolvedAddress)
-      //console.lookup(reverseLookup)
-    })*/ 
     return (
       <React.Fragment>
-        {context.active && !arweaveURL && (
+        {!arweaveURL && (
         <button onClick={getArweave}>Retrieve Arweave URL</button>
       )}
-        {arweaveURL && <p>{arweaveURL}</p>}
+        {arweaveURL && <p>{arweaveURL}</p>}        
+
+         <button onClick={setArweave('http://arweave.supermagic.com')}>Set Arweave URL</button>
       </React.Fragment>
     )
   }
