@@ -20,8 +20,6 @@ function App() {
 function ActivateConnectors() {
   const context = useWeb3Context();
 
-  console.log(context);
-
   if (context.error) {
     console.error("Error!");
   }
@@ -103,9 +101,14 @@ function Arweave () {
   const context = useWeb3Context();
   const [arweaveURL, setarweaveURL] = React.useState()
 
+  const handleChange = evt => {
+    setarweaveURL(evt.target.value)
+    console.log('Setting URL to ' + arweaveURL)
+  }
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log('Setting URL to ' + arweaveURL)
+    setArweave(arweaveURL)
   }
 
   async function setArweave (arweaveUrl)
@@ -128,8 +131,6 @@ function Arweave () {
       console.log(link)
       setarweaveURL(link)
     })
-  }
-  if (context.error) {
     console.error("Error!");
     return <p>Error</p>
   }
@@ -147,6 +148,7 @@ function Arweave () {
                 type="text" 
                 value={arweaveURL} 
                 name="inputArweaveUrl" 
+                onChange={handleChange} 
                 required 
                 />
             </label>
