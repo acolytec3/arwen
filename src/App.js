@@ -5,13 +5,15 @@ import { ethers } from "ethers";
 import { abi } from "./PublicResolver"
 import connectors from "./Connectors.js";
 import "./index.css";
+import Arweave from 'arweave/web';
 
 function App() {
   return (
     <Web3Provider connectors={connectors} libraryName="ethers.js">
       <div className="App">
         <ActivateConnectors/>
-        <Arweave />
+        <ArweaveComponent />
+        <RetrieveArweave />
       </div>
     </Web3Provider>
   );
@@ -97,7 +99,7 @@ function Web3ConsumerComponent() {
   );
 }
 
-function Arweave () {
+function ArweaveComponent () {
   const context = useWeb3Context();
   const [arweaveURL, setarweaveURL] = React.useState()
 
@@ -160,6 +162,29 @@ function Arweave () {
   }
   else return <p>Connection not active</p>
 }
+
+function RetrieveArweave ()
+{
+  const [arweavePage, setArweavePage] = React.useState()
+  const arw = Arweave.init({
+    host: 'arweave.net',
+  });
+  arw.network.getInfo().then(console.log).catch(console.log)
+
+  const transaction = arw.transactions.get('bNbA3TEQVL60xlgCcqdz4ZPHFZ711cZ3hmkpGttDt_U')
+  .then(transaction => {
+    transaction.get('tags').forEach(tag => {
+      let key = tag.get('name', {decode: true, string: true});
+      let value = tag.get('value', {decode: true, string: true});
+      console.log(`${key} : ${value}`);
+      })
+      var page = transaction.get('data', {decode: true, string: true});
+      setArweavePage(page)
+      console.log(arweavePage)
+    }
+  );
+
+  return <div dangerouslySetInnerHTML={{ __html:arweavePage }} />
+}
 export default App;
 
-//          <button onClick={setArweave('http://arweave.cheese.one')}>Set Arweave URL</button>
