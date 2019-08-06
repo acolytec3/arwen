@@ -9,6 +9,7 @@ import Arweave from 'arweave/web';
 
 function App() {
   return (
+
     <Web3Provider connectors={connectors} libraryName="ethers.js">
       <div className="App">
         <ActivateConnectors/>
