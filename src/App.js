@@ -13,7 +13,8 @@ function App() {
     <Web3Provider connectors={connectors} libraryName="ethers.js">
       <div className="App">
         <ActivateConnectors/>
-        <ArweaveComponent />
+        <SetArweaveComponent/>
+        <GetArweaveResource arweaveHash="bNbA3TEQVL60xlgCcqdz4ZPHFZ711cZ3hmkpGttDt_U" />
       </div>
     </Web3Provider>
   );
@@ -92,10 +93,10 @@ function Web3ConsumerComponent() {
   );
 }
 
-function ArweaveComponent () {
+function SetArweaveComponent () {
   const context = useWeb3Context();
   const [arweaveURL, setarweaveURL] = React.useState()
-  const [arweavePage, setArweavePage] = React.useState()
+  
 
   const handleChange = evt => {
     setarweaveURL(evt.target.value)
@@ -108,10 +109,7 @@ function ArweaveComponent () {
   }
 
 
-  const arw = Arweave.init({
-    host: 'arweave.net',
-  });
-
+ 
   async function associateArweaveWithENS (arweaveUrl)
   {
     const signer = context.library.getSigner()
@@ -123,19 +121,6 @@ function ArweaveComponent () {
     console.log(publicResolver.text(nameHash,'url'))
    }
   
-  async function getArweaveResource(){
-    const transaction = await arw.transactions.get(arweaveURL)
-    transaction.get('tags').forEach(tag => {
-      let key = tag.get('name', {decode: true, string: true});
-      let value = tag.get('value', {decode: true, string: true});
-      console.log(`${key} : ${value}`);
-    })
-    var page = await transaction.get('data', {decode: true, string: true});
-    setArweavePage(page)
-    console.log(arweavePage)
-    console.log(page)
-    return <div dangerouslySetInnerHTML={{ __html:page }} />
-  }
 
   function getArweave ()  {
     var nameHash = ethers.utils.namehash('acolytec3.test')
@@ -168,8 +153,6 @@ function ArweaveComponent () {
             </label>
             <input type="submit" value="Submit" />  
         </form>
-        {arweaveURL && (
-          <button onClick={getArweaveResource}>Retrieve Arweave Resource</button>
         )}
       </React.Fragment>
     )
@@ -177,5 +160,25 @@ function ArweaveComponent () {
   else return <p>Connection not active</p>
 }
 
+function GetArweaveResource (arweaveHash) {
+
+    const [arweavePage, setArweavePage] = React.useState()
+    const arw = Arweave.init({
+      host: 'arweave.net',
+    });
+
+    var transaction = arw.transactions.get(arweaveHash)
+    .then(trxn => {
+      trxn.get('tags').forEach(tag => {
+      let key = tag.get('name', {decode: true, string: true});
+      let value = tag.get('value', {decode: true, string: true});
+      console.log(`${key} : ${value}`);
+      })
+      let page = trxn.get('data', {decode: true, string: true})
+      setArweavePage(page);
+    })
+    return <div dangerouslySetInnerHTML={{ __html:arweavePage }} />
+ 
+}
 export default App;
 
