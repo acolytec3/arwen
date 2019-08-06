@@ -13,8 +13,10 @@ function App() {
     <Web3Provider connectors={connectors} libraryName="ethers.js">
       <div className="App">
         <ActivateConnectors/>
-        <SetArweaveComponent/>
-        <GetArweaveResource arweaveHash="bNbA3TEQVL60xlgCcqdz4ZPHFZ711cZ3hmkpGttDt_U" />
+        <div>
+          <SetArweaveComponent/>
+        </div>
+        <GetArweaveResource arweaveHash="" />
       </div>
     </Web3Provider>
   );
@@ -28,19 +30,6 @@ function ActivateConnectors() {
   }
 
   const [transactionHash, setTransactionHash] = React.useState();
-
-  function sendTransaction() {
-    const signer = context.library.getSigner();
-
-    signer
-      .sendTransaction({
-        to: ethers.constants.AddressZero,
-        value: ethers.utils.bigNumberify("0")
-      })
-      .then(({ hash }) => {
-        setTransactionHash(hash);
-      });
-  }
 
   return (
     <React.Fragment>
@@ -66,10 +55,6 @@ function ActivateConnectors() {
           {context.active ? "Deactivate Connector" : "Reset"}
         </button>
       )}
-      {context.active && context.account && !transactionHash && (
-        <button onClick={sendTransaction}>Send Dummy Transaction</button>
-      )}
-      {transactionHash && <p>{transactionHash}</p>}
     </React.Fragment>
   );
 }
@@ -153,21 +138,20 @@ function SetArweaveComponent () {
             </label>
             <input type="submit" value="Submit" />  
         </form>
-        )}
       </React.Fragment>
     )
   }
   else return <p>Connection not active</p>
 }
 
-function GetArweaveResource (arweaveHash) {
+function GetArweaveResource (props) {
 
     const [arweavePage, setArweavePage] = React.useState()
     const arw = Arweave.init({
       host: 'arweave.net',
     });
 
-    var transaction = arw.transactions.get(arweaveHash)
+    var transaction = arw.transactions.get(props.arweaveHash)
     .then(trxn => {
       trxn.get('tags').forEach(tag => {
       let key = tag.get('name', {decode: true, string: true});
