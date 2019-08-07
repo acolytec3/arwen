@@ -106,7 +106,7 @@ function SetArweaveComponent (props) {
   async function associateArweaveWithENS (arweaveUrl)
   {
     const signer = context.library.getSigner()
-    var nameHash = ethers.utils.namehash('acolytec3.test')
+    var nameHash = ethers.utils.namehash(ensDomainName)
     const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, signer)
     var tx = await publicResolver.setText(nameHash,'url',arweaveUrl)
     console.log(tx.hash)
