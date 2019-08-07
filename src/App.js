@@ -81,7 +81,7 @@ function Web3ConsumerComponent() {
 function SetArweaveComponent (props) {
   const context = useWeb3Context();
   const [arweaveURL, setarweaveURL] = React.useState()
-
+  const [ensDomainName, setEnsDomainName] = React.useState('alice.eth')
   const handleChange = evt => {
     setarweaveURL(evt.target.value)
     console.log('Setting URL to ' + arweaveURL)
@@ -92,6 +92,16 @@ function SetArweaveComponent (props) {
     associateArweaveWithENS(arweaveURL)
   }
  
+  const handleENSChange = evt => {
+    setEnsDomainName(evt.target.value)
+    console.log('Setting URL to ' + arweaveURL)
+  }
+
+  const handleENSSubmit = (evt) => {
+    evt.preventDefault();
+    getArweaveFromENS();
+    console.log('An ENS Domain name of ' + ensDomainName + 'was entered')
+  }
 
   async function associateArweaveWithENS (arweaveUrl)
   {
@@ -105,22 +115,33 @@ function SetArweaveComponent (props) {
    }
   
   function getArweaveFromENS ()  {
-    var nameHash = ethers.utils.namehash('acolytec3.test')
+    var nameHash = ethers.utils.namehash(ensDomainName)
     const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, context.library)
     publicResolver.text(nameHash,'url')
     .then(link => {
       console.log(link)
       setarweaveURL(link)
     })
-    console.error("Error!");
-    return <p>Error</p>
+    .catch(error => {
+      console.log(error)
+      setarweaveURL('Error in retrieving Arweave Key')
+    })
+
   }
 
   if (context.active){
     return (
       <React.Fragment>
         <div>
-        <button onClick={getArweaveFromENS}>Get Arweave URL associated with ENS Domain</button>
+        <form onSubmit={handleENSSubmit}>
+          <label> ENS Domain
+            <input type="text"
+              value={ensDomainName}
+              onChange={handleENSChange}
+              />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
         </div>
         {arweaveURL && <p>{arweaveURL}</p>}        
         <form onSubmit={handleSubmit}>
