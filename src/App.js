@@ -8,16 +8,16 @@ import "./index.css";
 import Arweave from 'arweave/web';
 
 function App() {
+
   return (
 
     <Web3Provider connectors={connectors} libraryName="ethers.js">
       <div className="App">
         <ActivateConnectors/>
         <div>
-          <SetArweaveComponent/>
+          <SetArweaveComponent />
         </div>
-        <GetArweaveResource arweaveHash="" />
-      </div>
+      </div>      
     </Web3Provider>
   );
 }
@@ -78,10 +78,9 @@ function Web3ConsumerComponent() {
   );
 }
 
-function SetArweaveComponent () {
+function SetArweaveComponent (props) {
   const context = useWeb3Context();
   const [arweaveURL, setarweaveURL] = React.useState()
-  
 
   const handleChange = evt => {
     setarweaveURL(evt.target.value)
@@ -92,9 +91,8 @@ function SetArweaveComponent () {
     evt.preventDefault();
     associateArweaveWithENS(arweaveURL)
   }
-
-
  
+
   async function associateArweaveWithENS (arweaveUrl)
   {
     const signer = context.library.getSigner()
@@ -106,8 +104,7 @@ function SetArweaveComponent () {
     console.log(publicResolver.text(nameHash,'url'))
    }
   
-
-  function getArweave ()  {
+  function getArweaveFromENS ()  {
     var nameHash = ethers.utils.namehash('acolytec3.test')
     const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, context.library)
     publicResolver.text(nameHash,'url')
@@ -122,9 +119,9 @@ function SetArweaveComponent () {
   if (context.active){
     return (
       <React.Fragment>
-        {!arweaveURL && (
-        <button onClick={getArweave}>Get Arweave URL</button>
-        )}
+        <div>
+        <button onClick={getArweaveFromENS}>Get Arweave URL associated with ENS Domain</button>
+        </div>
         {arweaveURL && <p>{arweaveURL}</p>}        
         <form onSubmit={handleSubmit}>
           <label>Set Arweave URL
@@ -138,6 +135,7 @@ function SetArweaveComponent () {
             </label>
             <input type="submit" value="Submit" />  
         </form>
+        {arweaveURL !== '' && <GetArweaveResource arweaveHash={arweaveURL} />}
       </React.Fragment>
     )
   }
@@ -146,11 +144,11 @@ function SetArweaveComponent () {
 
 function GetArweaveResource (props) {
 
-    const [arweavePage, setArweavePage] = React.useState()
+    const [arweavePage, setArweavePage] = React.useState('')
     const arw = Arweave.init({
       host: 'arweave.net',
     });
-
+    console.log(props.arweaveHash)
     var transaction = arw.transactions.get(props.arweaveHash)
     .then(trxn => {
       trxn.get('tags').forEach(tag => {
@@ -160,9 +158,18 @@ function GetArweaveResource (props) {
       })
       let page = trxn.get('data', {decode: true, string: true})
       setArweavePage(page);
+      console.log(arweavePage)
     })
-    return <div dangerouslySetInnerHTML={{ __html:arweavePage }} />
- 
+    .catch(error => {
+      console.log(error)
+      setArweavePage('error')
+    })
+    return (
+      <React.Fragment>
+        {arweavePage && (
+        <div dangerouslySetInnerHTML={{ __html:arweavePage }} />)}
+      </React.Fragment>
+      )
 }
 export default App;
 
