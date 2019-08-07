@@ -15,6 +15,9 @@ function App() {
       <div className="App">
         <ActivateConnectors/>
         <div>
+          <ENSRegistrationComponent />
+        </div>
+        <div>
           <SetArweaveComponent />
         </div>
       </div>      
@@ -78,10 +81,42 @@ function Web3ConsumerComponent() {
   );
 }
 
+function ENSRegistrationComponent() {
+  const context = useWeb3Context();
+  const [ensDomainName, setEnsDomainName] = React.useState()
+
+  const handleChange = evt => {
+    setEnsDomainName(evt.target.value)
+    console.log('Setting ENS Domain Name to ' + ensDomainName)
+  }
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    registerEnsDomain()
+  }
+
+  async function registerEnsDomain()
+  {
+    //Do something to register ENS Domain name
+  }
+  
+  if (context.active){
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>ENS Domain to be registered
+        <input type='text' value={ensDomainName} onChange={handleChange}/>
+        <input type='submit' value="Register" />
+      </label>
+    </form>
+  )}
+  else return null
+}
+
 function SetArweaveComponent (props) {
   const context = useWeb3Context();
   const [arweaveURL, setarweaveURL] = React.useState()
   const [ensDomainName, setEnsDomainName] = React.useState('alice.eth')
+
   const handleChange = evt => {
     setarweaveURL(evt.target.value)
     console.log('Setting URL to ' + arweaveURL)
@@ -94,7 +129,7 @@ function SetArweaveComponent (props) {
  
   const handleENSChange = evt => {
     setEnsDomainName(evt.target.value)
-    console.log('Setting URL to ' + arweaveURL)
+    console.log('Setting ensDomainName to ' + ensDomainName)
   }
 
   const handleENSSubmit = (evt) => {
@@ -134,7 +169,7 @@ function SetArweaveComponent (props) {
       <React.Fragment>
         <div>
         <form onSubmit={handleENSSubmit}>
-          <label> ENS Domain
+          <label> ENS Domain to be queried
             <input type="text"
               value={ensDomainName}
               onChange={handleENSChange}
