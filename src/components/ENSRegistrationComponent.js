@@ -50,11 +50,11 @@ function ENSRegistrationComponent() {
           />
         </InputGroup>
       </Form>
-      <Form inline>
+      <Form inline onSubmit={handleSubmit}>
         <FormControl
           type="text"
           value={ensSubDomainName}
-          onChange={this.handleChange}
+          onChange={handleChange}
           placeholder="ENS SubDomain"
           className=" mr-sm-2" />
         <Button type="submit">Register</Button>
