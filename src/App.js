@@ -3,6 +3,7 @@ import * as React from "react";
 import Web3Provider, { useWeb3Context, Web3Consumer } from "web3-react";
 import { ethers } from "ethers";
 import { abi } from "./PublicResolver"
+import { registrarAbi } from "./Registrar.js"
 import connectors from "./Connectors.js";
 import "./index.css";
 import Arweave from 'arweave/web';
@@ -83,28 +84,34 @@ function Web3ConsumerComponent() {
 
 function ENSRegistrationComponent() {
   const context = useWeb3Context();
-  const [ensDomainName, setEnsDomainName] = React.useState()
+  const [ensSubDomainName, setEnsSubDomainName] = React.useState()
 
   const handleChange = evt => {
-    setEnsDomainName(evt.target.value)
-    console.log('Setting ENS Domain Name to ' + ensDomainName)
+    setEnsSubDomainName(evt.target.value)
+    console.log('Setting ENS Domain Name to ' + ensSubDomainName)
   }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    registerEnsDomain()
+    registerEnsSubDomain()
   }
 
-  async function registerEnsDomain()
+  async function registerEnsSubDomain()
   {
-    //Do something to register ENS Domain name
+    const signer = context.library.getSigner()
+    var names = ensSubDomainName.split('.')
+    var subdomainNameHash = ethers.utils.namehash(names[0])
+    var domainNameHash = ethers.utils.namehash(names[1] + '.' + names[2])
+    const registrar = new ethers.Contract('0x112234455c3a32fd11230c42e7bccd4a84e02010', registrarAbi, signer)
+    var txid = await registrar.setSubnodeOwner(domainNameHash,subdomainNameHash,registrar.owner(domainNameHash))
+    console.log(txid)
   }
   
   if (context.active){
   return (
     <form onSubmit={handleSubmit}>
-      <label>ENS Domain to be registered
-        <input type='text' value={ensDomainName} onChange={handleChange}/>
+      <label>ENS Subdomain to be registered
+        <input type='text' value={ensSubDomainName} onChange={handleChange}/>
         <input type='submit' value="Register" />
       </label>
     </form>
@@ -115,7 +122,7 @@ function ENSRegistrationComponent() {
 function SetArweaveComponent (props) {
   const context = useWeb3Context();
   const [arweaveURL, setarweaveURL] = React.useState()
-  const [ensDomainName, setEnsDomainName] = React.useState('alice.eth')
+  const [ensDomainName, setEnsDomainName] = React.useState()
 
   const handleChange = evt => {
     setarweaveURL(evt.target.value)
