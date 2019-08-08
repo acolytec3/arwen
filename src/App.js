@@ -106,6 +106,7 @@ function ENSRegistrationComponent() {
     await txid.wait()
     var txid = await registrar.setResolver(ethers.utils.namehash(ensSubDomainName),'0x5FfC014343cd971B7eb70732021E26C35B744cc4')
     console.log(txid)
+
   }
   
   if (context.active){
