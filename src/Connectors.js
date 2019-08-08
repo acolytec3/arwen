@@ -20,7 +20,7 @@ const supportedNetworkURLs = {
   4: "https://rinkeby.infura.io/v3/"
 };
 
-const defaultNetwork = 1;
+// const defaultNetwork = 1;
 
 const Injected = new InjectedConnector({
   supportedNetworks: [1, 3, 4]
