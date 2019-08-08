@@ -9,7 +9,7 @@ import "./index.css";
 import Arweave from 'arweave/web';
 
 function App() {
-
+  console.log(ethers.utils.keccak256(ethers.utils.toUtf8Bytes('eth')))
   return (
 
     <Web3Provider connectors={connectors} libraryName="ethers.js">
@@ -32,9 +32,6 @@ function ActivateConnectors() {
   if (context.error) {
     console.error("Error!");
   }
-
-  const [transactionHash, setTransactionHash] = React.useState();
-
   return (
     <React.Fragment>
       <h1>ENS Arweave Explorer</h1>
@@ -100,11 +97,16 @@ function ENSRegistrationComponent() {
   {
     const signer = context.library.getSigner()
     var names = ensSubDomainName.split('.')
-    var subdomainNameHash = ethers.utils.namehash(names[0])
+    var subdomainNameHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(names[0]))
     var domainNameHash = ethers.utils.namehash(names[1] + '.' + names[2])
+    console.log(subdomainNameHash)
     const registrar = new ethers.Contract('0x112234455c3a32fd11230c42e7bccd4a84e02010', registrarAbi, signer)
     var txid = await registrar.setSubnodeOwner(domainNameHash,subdomainNameHash,registrar.owner(domainNameHash))
     console.log(txid)
+    await txid.wait()
+    var txid = await registrar.setResolver(ethers.utils.namehash(ensSubDomainName),'0x5FfC014343cd971B7eb70732021E26C35B744cc4')
+    console.log(txid)
+
   }
   
   if (context.active){
@@ -124,12 +126,12 @@ function SetArweaveComponent (props) {
   const [arweaveURL, setarweaveURL] = React.useState()
   const [ensDomainName, setEnsDomainName] = React.useState()
 
-  const handleChange = evt => {
+  const handleArweaveChange = evt => {
     setarweaveURL(evt.target.value)
     console.log('Setting URL to ' + arweaveURL)
   }
 
-  const handleSubmit = (evt) => {
+  const handleArweaveSubmit = (evt) => {
     evt.preventDefault();
     associateArweaveWithENS(arweaveURL)
   }
@@ -149,6 +151,7 @@ function SetArweaveComponent (props) {
   {
     const signer = context.library.getSigner()
     var nameHash = ethers.utils.namehash(ensDomainName)
+    console.log('Namehash of ' + ensDomainName + ' is ' + nameHash)
     const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, signer)
     var tx = await publicResolver.setText(nameHash,'url',arweaveUrl)
     console.log(tx.hash)
@@ -186,13 +189,13 @@ function SetArweaveComponent (props) {
         </form>
         </div>
         {arweaveURL && <p>{arweaveURL}</p>}        
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleArweaveSubmit}>
           <label>Set Arweave URL
             <input 
              type="text" 
              value={arweaveURL} 
              name="inputArweaveUrl" 
-             onChange={handleChange} 
+             onChange={handleArweaveChange} 
              required 
             />
             </label>
