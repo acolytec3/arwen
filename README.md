@@ -1,7 +1,7 @@
 # ENS-Arweave Project
 
 ## Usage
-1. Clone this reposity
+1. Clone this repository
 2. yarn install
 3. yarn start
 4. Navigate to localhost:3000
