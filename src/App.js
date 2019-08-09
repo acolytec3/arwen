@@ -11,7 +11,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 function App() {
-  console.log(ethers.utils.keccak256(ethers.utils.toUtf8Bytes('eth')))
   return (
     <Web3Provider connectors={connectors} libraryName="ethers.js">
       <Container className="App">
