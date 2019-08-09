@@ -54,13 +54,13 @@ function ENSRegistrationComponent() {
     var txid = await ethController.available(domainName)
     console.log(txid)
     if (txid === false) {
-
       return console.log('Domain name unavailable')
     }
     var commitSecret = ethers.utils.formatBytes32String(domainName)
     var commitmentHash = await ethController.makeCommitment(domainName, signer._address, commitSecret)
     console.log("The commit hash for this registration request is " + commitmentHash + " and the commit secret is " + commitSecret)
     var rentPrice = await ethController.rentPrice(domainName, 31535999)
+    rentPrice = rentPrice * 1.05
     console.log('ENS Domain Name Rent Price: ' + rentPrice)
     txid = await ethController.commit(commitmentHash)
     console.log(txid)
@@ -69,8 +69,9 @@ function ENSRegistrationComponent() {
     var minCommitTime = minCommitTimeBN.toNumber()
     await new Promise(resolve => setTimeout(resolve, minCommitTime*1000))
     console.log('Waited ' + minCommitTime + ' seconds')
-    txid = ethController.register(domainName, signer._address, ethers.utils.bigNumberify(31535999), commitSecret, { value: rentPrice, gasLimit: 300000, gasPrice: 15 })
-//    txid = ethController.register(domainName, signer._address, 2420000, ethers.utils.formatBytes32String(domainName))
+    var gasPrice = ethers.providers.getGasPrice()
+    console.log(gasPrice.toNumber())
+    txid = ethController.register(domainName, signer._address, ethers.utils.bigNumberify(31535999), commitSecret, { value: rentPrice, gasLimit: 300000, gasPrice: gasPrice })
     .then(txid => console.log(txid))
     .catch(error => console.log(error))
  }
