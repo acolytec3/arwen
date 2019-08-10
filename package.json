@@ -6,9 +6,11 @@
     "arweave": "^1.4.1",
     "bootstrap": "^4.3.1",
     "ethers": "^4.0.33",
+    "object-sizeof": "^1.4.0",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.10",
     "react-dom": "^16.8.6",
+    "react-dropzone": "^10.1.7",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "web3-react": "^5.0.4"
