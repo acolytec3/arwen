@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { useWeb3Context } from "web3-react";
 import GetArweaveResource from './GetArweaveResource.js'
 import { abi } from "../PublicResolver"
+import { Button, Form } from 'react-bootstrap'
 
 function SetArweaveComponent (props) {
   const context = useWeb3Context();
@@ -60,30 +61,29 @@ function SetArweaveComponent (props) {
   if (context.active){
     return (
       <React.Fragment>
-        <div>
-        <form onSubmit={handleENSSubmit}>
-          <label> ENS Domain to be queried
-            <input type="text"
-              value={ensDomainName}
-              onChange={handleENSChange}
-              />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        </div>
-        {arweaveURL && <p>{arweaveURL}</p>}
-        <form onSubmit={handleArweaveSubmit}>
-          <label>Set Arweave URL
-            <input
-             type="text"
-             value={arweaveURL}
-             name="inputArweaveUrl"
-             onChange={handleArweaveChange}
-             required
-            />
-            </label>
-            <input type="submit" value="Submit" />
-        </form>
+          <Form>
+            <Form.Group controlId='ensDomain'>
+              <Form.Label>ENS Domain</Form.Label>
+              <Form.Control type="text" placeholder="alice.eth" onChange={handleENSChange}/>
+              <Form.Text className="text-muted">
+                Enter the ENS domain or subdomain and retrieve any associated Arweave content
+              </Form.Text>
+            </Form.Group>     
+          <Form onSubmit={handleArweaveSubmit}>
+            <Form.Group controlId='arweaveId'>
+              <Form.Label>Arweave Transaction ID</Form.Label>
+              <Form.Control type="text" placeholder="" onChange={handleArweaveChange}/>
+              <Form.Text className="text-muted">
+                Enter the Arweave transaction ID you want link to your ENS domain/subdomain
+              </Form.Text>
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Link ENS to Arweave
+            </Button>
+          </Form>
+      </Form>
+      <Button variant="primary" type="submit" onClick={handleENSSubmit}>Retrieve Arweave Resource</Button>
+
         {arweaveURL !== '' && <GetArweaveResource arweaveHash={arweaveURL} />}
       </React.Fragment>
     )

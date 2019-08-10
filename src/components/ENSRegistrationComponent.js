@@ -81,10 +81,6 @@ function ENSRegistrationComponent() {
   return (
     <Navbar className="bg-light justify-content-between">
       <Form inline onSubmit={handleEnsDomainSubmit}>
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text id="basic-addon1">EBS Domain Name</InputGroup.Text>
-          </InputGroup.Prepend>
           <FormControl
             placeholder="alice.eth"
             aria-label="ENSDomain"
@@ -93,7 +89,6 @@ function ENSRegistrationComponent() {
             onChange={handleEnsDomainChange}
             aria-describedby="basic-addon1"
           />
-        </InputGroup>
         <Button type="submit">Register Domain</Button>
       </Form>
       <Form inline onSubmit={handleEnsSubdomainSubmit}>
