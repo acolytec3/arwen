@@ -25,7 +25,8 @@ function GetArweaveResource (props) {
   })
   return (
     <React.Fragment>
-      {arweavePage && (
+      {arweavePage === 'error' && <p>No Arweave resource found</p>}
+      {arweavePage !== 'error' && (
       <div dangerouslySetInnerHTML={{ __html:arweavePage }} />)}
     </React.Fragment>
     )

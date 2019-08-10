@@ -7,7 +7,7 @@ import { Button, Form } from 'react-bootstrap'
 
 function SetArweaveComponent (props) {
   const context = useWeb3Context();
-  const [arweaveURL, setarweaveURL] = React.useState()
+  const [arweaveURL, setarweaveURL] = React.useState('none')
   const [ensDomainName, setEnsDomainName] = React.useState()
 
   const handleArweaveChange = evt => {
@@ -53,7 +53,7 @@ function SetArweaveComponent (props) {
     })
     .catch(error => {
       console.log(error)
-      setarweaveURL('Error in retrieving Arweave Key')
+      setarweaveURL('none')
     })
 
   }
@@ -84,7 +84,10 @@ function SetArweaveComponent (props) {
       </Form>
       <Button variant="primary" type="submit" onClick={handleENSSubmit}>Retrieve Arweave Resource</Button>
 
-        {arweaveURL !== '' && <GetArweaveResource arweaveHash={arweaveURL} />}
+        {arweaveURL !== 'none' && 
+        <p>The Arweave transction ID is: {arweaveURL}</p>}
+         {arweaveURL !== 'none' && 
+        <GetArweaveResource arweaveHash={arweaveURL} />}
       </React.Fragment>
     )
   }
