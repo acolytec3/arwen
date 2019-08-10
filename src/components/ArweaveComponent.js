@@ -73,11 +73,10 @@ function ArweaveComponent ()
     async function postTransaction(transaction){
 
         console.log(transaction)
-//        const response = await arw.transactions.post(transaction)
-        var response = null
+        const response = await arw.transactions.post(transaction)
         console.log(response)
 
-        return "200"
+        return response.status
     }
 
     async function arQLquery(){
