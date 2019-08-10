@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
+import { Button } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import Arweave from 'arweave/web';
-var sizeof = require('object-sizeof')
+import { useWeb3Context } from "web3-react";
 
 function ArweaveComponent ()
 {
+    const context = useWeb3Context();
     const [wallet, setWallet] = React.useState()
     const [balance, setBalance] = React.useState()
     const [data, setData] = React.useState()
@@ -39,13 +41,13 @@ function ArweaveComponent ()
             else {
                 var contents = event.target.result
                 setData(contents)
-                var txn = generateTransaction(wallet.privateKey, data, {'name':'Content-Type', 'value':acceptedFiles[0].type})
-                setTxn(txn)
+                var txn = generateTransaction(wallet.privateKey, contents, {'name':'Content-Type', 'value':acceptedFiles[0].type})
+                .then(txn => setTxn(txn))
             }
         }
         reader.readAsText(acceptedFiles[0])
  
-      }, []);
+      }, [wallet, data]);
     
     const { isDragActive, getRootProps, getInputProps, isDragReject, acceptedFiles } = useDropzone({
       onDrop,
@@ -58,32 +60,31 @@ function ArweaveComponent ()
         return balance
     }
     
-    async function generateTransaction(privateKey, data, tags) {
-        let transaction = await arw.createTransaction({ data }, privateKey)
-        tags.foreach(tag => {
-            transaction.addTag(tag.key, tag.value)
-        })
+    async function generateTransaction(privateKey, fileData, tags) {
+        console.log(fileData)
+        let transaction = await arw.createTransaction({ data : fileData }, privateKey)
+        transaction.addTag(tags.name, tags.value)
+        console.log('This transaction will cost ' + transaction.reward + ' winston')
+        await arw.transactions.sign(transaction, wallet.privateKey)
         console.log(transaction)
-        var size = sizeof(data)
-        var cost = arw.transactions.getPrice(size,wallet.address)
-        console.log('This transaction will cost ' + cost + ' winston')
         return transaction
     }
 
     async function postTransaction(transaction){
-        await arw.transactions.sign(transaction, wallet.privateKey)
 
-        const response = await arw.transactions.post(transaction)
-
+        console.log(transaction)
+//        const response = await arw.transactions.post(transaction)
+        var response = null
         console.log(response)
 
-        return response.status
+        return "200"
     }
 
     async function arQLquery(){
         return null
     }
 
+    if (context.active){
     return (
         <React.Fragment>
           {!wallet && <div className="container text-center mt-5">
@@ -125,10 +126,17 @@ function ArweaveComponent ()
           </div>}
           {data && <p>The contents of your file are below<p></p>
             <p></p>{data}</p>}
-          {arweaveTxn && <p>Your generated transaction is below<p></p>{arweaveTxn}</p>
-        }
+          {arweaveTxn && <p>The Transaction ID for your generated transaction is {arweaveTxn.id} and will cost {arweaveTxn.reward} winston</p>}
+          {arweaveTxn && 
+           <Button 
+                key='submitTxn'
+                onClick={() => postTransaction(arweaveTxn)}
+                >Submit Transaction
+            </Button>
+          }
         </React.Fragment>
-    )
+    )}
+    else return null
 }
 
 export default ArweaveComponent
