@@ -27,12 +27,12 @@ function App() {
         </Row>
         <Row>
           <Col>
-            <SetArweaveComponent />
+            <ArweaveComponent />
           </Col>
-        </Row>
+          </Row>
         <Row>
           <Col>
-            <ArweaveComponent />
+            <SetArweaveComponent />
           </Col>
         </Row>
       </Container>
