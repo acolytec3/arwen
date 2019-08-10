@@ -9,12 +9,14 @@ function ArweaveComponent ()
     const [balance, setBalance] = React.useState()
     const [data, setData] = React.useState()
     const [arweaveTxn, setTxn] = React.useState()
+
     React.useEffect(() => {
         if (wallet){
             var walletBalance = getBalance(wallet)
             .then(result => setBalance(result))
         }
     })
+
     var arw = Arweave.init({
       host: 'arweave.net',
     });
@@ -35,7 +37,6 @@ function ArweaveComponent ()
                 })
             }
             else {
-                console.log(wallet)
                 var contents = event.target.result
                 setData(contents)
                 var txn = generateTransaction(wallet.privateKey, data, {'name':'Content-Type', 'value':acceptedFiles[0].type})
@@ -58,7 +59,6 @@ function ArweaveComponent ()
     }
     
     async function generateTransaction(privateKey, data, tags) {
-        console.log(privateKey)
         let transaction = await arw.createTransaction({ data }, privateKey)
         tags.foreach(tag => {
             transaction.addTag(tag.key, tag.value)
