@@ -1,7 +1,6 @@
 import React from 'react';
 //import WalletConnectQRCodeModal from "@walletconnect/qrcode-modal";
 import Web3Provider from "web3-react";
-import { ethers } from "ethers";
 import connectors from "./Connectors.js";
 import ActivateConnectors from "./components/ActivateConnectors.js";
 import ENSRegistrationComponent from "./components/ENSRegistrationComponent.js";

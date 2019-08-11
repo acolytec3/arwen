@@ -2,13 +2,14 @@ import React from 'react';
 import { ethers } from "ethers";
 import { useWeb3Context } from "web3-react";
 import { registrarAbi } from "../Registrar.js"
-import { Navbar, Form, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { Navbar, Form, FormControl, Button, ProgressBar } from 'react-bootstrap';
 import { ethControllerAbi } from '../EthController.js'
 
 function ENSRegistrationComponent() {
   const context = useWeb3Context();
   const [ensSubDomainName, setEnsSubDomainName] = React.useState()
   const [ensDomainName, setEnsDomainName] = React.useState()
+  const [ensSpinner, setEnsSpinner] = React.useState({state:'Not Started', per: 0})
 
   const handleEnsSubDomainChange = evt => {
     setEnsSubDomainName(evt.target.value)
@@ -48,6 +49,7 @@ function ENSRegistrationComponent() {
   async function registerEnsDomain()
   {
     const signer = context.library.getSigner()
+    const provider = ethers.getDefaultProvider()
     console.log("ENS Domain Name Hash is " + ensDomainName)
     const ethController = new ethers.Contract('0x357DBd063BeA7F0713BF88A3e97B7436B0235979', ethControllerAbi, signer)
     var domainName = ensDomainName.split('.')[0]
@@ -63,19 +65,32 @@ function ENSRegistrationComponent() {
     rentPrice = rentPrice * 1.05
     console.log('ENS Domain Name Rent Price: ' + rentPrice)
     txid = await ethController.commit(commitmentHash)
-    console.log(txid)
+    setEnsSpinner({state:'Commmitting',per: 33})
+    console.log("Commitment transaction for ENS domain name " + ensDomainName + " with transaciton hash " + txid)
     await txid.wait()
     var minCommitTimeBN = await ethController.minCommitmentAge()
     var minCommitTime = minCommitTimeBN.toNumber()
     await new Promise(resolve => setTimeout(resolve, minCommitTime*1000))
-    console.log('Waited ' + minCommitTime + ' seconds')
-    var gasPrice = ethers.providers.getGasPrice()
-    console.log(gasPrice.toNumber())
-    txid = ethController.register(domainName, signer._address, ethers.utils.bigNumberify(31535999), commitSecret, { value: rentPrice, gasLimit: 300000, gasPrice: gasPrice })
-    .then(txid => console.log(txid))
-    .catch(error => console.log(error))
+    console.log('Waited ' + minCommitTime + ' seconds') 
+    var gasPrice = await provider.getGasPrice()
+    console.log(gasPrice)
+    txid = ethController.register(domainName, signer._address, ethers.utils.bigNumberify(31535999), commitSecret, { value: rentPrice, gasLimit: 500000, gasPrice: 500 })
+    .then(txid => {
+      console.log("Transaction submitted to register " + ensDomainName + " with hash " + txid)
+      setEnsSpinner({state:'Registering',per: 66})
+    })
+    .catch(error => {
+      console.log(error)
+      setEnsSpinner('error')
+    })
+    const registrar = new ethers.Contract('0x112234455c3a32fd11230c42e7bccd4a84e02010', registrarAbi, signer)
+    txid = await registrar.setResolver(ethers.utils.namehash(ensDomainName),'0x5FfC014343cd971B7eb70732021E26C35B744cc4')
+    console.log("Setting Resolver with transaction hash " + txid)
+    txid.wait()
+    setEnsSpinner({state:'Done',per: 100})
+    await new Promise(resolve => setTimeout(resolve, 10000))
+    setEnsSpinner({state:'Not Started', per: 0})
  }
-
 
   if (context.active){
   return (
@@ -89,7 +104,8 @@ function ENSRegistrationComponent() {
             onChange={handleEnsDomainChange}
             aria-describedby="basic-addon1"
           />
-        <Button type="submit">Register Domain</Button>
+        <Button type="submit" disabled={setEnsSpinner.per > 0}>Register Domain</Button>
+        {ensSpinner.per > 0 && <ProgressBar now={ensSpinner.per} label={ensSpinner.state} />}
       </Form>
       <Form inline onSubmit={handleEnsSubdomainSubmit}>
         <FormControl

@@ -18,18 +18,20 @@ function GetArweaveResource (props) {
     let page = trxn.get('data', {decode: true, string: true})
     setArweavePage(page);
     console.log(arweavePage)
+    window.open('https://arweave.net/'+props.arweaveHash, '_blank')
   })
   .catch(error => {
     console.log(error)
     setArweavePage('error')
   })
+  if (arweavePage === 'error'){
   return (
     <React.Fragment>
       {arweavePage === 'error' && <p>No Arweave resource found</p>}
-      {arweavePage !== 'error' && (
-      <div dangerouslySetInnerHTML={{ __html:arweavePage }} />)}
     </React.Fragment>
-    )
+    )}
+  else return null
+
 }
 
 export default GetArweaveResource;
