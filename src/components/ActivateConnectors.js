@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 function ActivateConnectors() {
   const context = useWeb3Context();
   console.log(Object.keys(connectors));
+  context.setFirstValidConnector(['Injected','Network'])
   if (context.error) {
     console.error("Error!");
   }

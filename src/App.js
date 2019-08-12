@@ -1,4 +1,5 @@
 import React from 'react';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 //import WalletConnectQRCodeModal from "@walletconnect/qrcode-modal";
 import Web3Provider from "web3-react";
 import connectors from "./Connectors.js";
@@ -6,12 +7,16 @@ import ActivateConnectors from "./components/ActivateConnectors.js";
 import ENSRegistrationComponent from "./components/ENSRegistrationComponent.js";
 import SetArweaveComponent from "./components/SetArweaveComponent.js";
 import ArweaveComponent from "./components/ArweaveComponent"
+import ArweaveRouterComponent from "./components/ArweaveRouterComponent"
 import "./index.css";
 import { Container, Row, Col } from 'react-bootstrap';
 
 
 function App() {
   return (
+    <HashRouter>
+    <Switch>
+    <Route exact path="/" render={() =>
     <Web3Provider connectors={connectors} libraryName="ethers.js">
       <Container className="App">
         <Row>
@@ -35,7 +40,19 @@ function App() {
           </Col>
         </Row>
       </Container>
-    </Web3Provider>
+    </Web3Provider>}/>
+    <Route path="/:id" render={(routeProps) =>       
+      <Web3Provider connectors={connectors} libraryName="ethers.js">
+        <Row><Col>
+            <ActivateConnectors />
+            <ArweaveRouterComponent domainName={routeProps.match.params.id} />
+        </Col></Row>
+        <p>{routeProps.match.params.id}</p>
+      </Web3Provider>
+    }
+      /> 
+    </Switch>
+    </HashRouter>
   );
 }
 
