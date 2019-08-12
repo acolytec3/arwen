@@ -14,25 +14,16 @@ function ActivateConnectors() {
   return (
     <React.Fragment>
       <h1>ENS Arweave Explorer</h1>
-
-      <Web3ConsumerComponent />
       {context.error && (
         <p>An error occurred, check the console for details.</p>
       )}
-      {Object.keys(connectors).map(connectorName => (
-        <Button
-          key={connectorName}
-          disabled={context.connectorName === connectorName}
-          onClick={() => context.setConnector(connectorName)}
-        >
-          Activate {connectorName}
-        </Button>
-      ))}
-      <br />
-      <br />
-      {(context.active || (context.error && context.connectorName)) && (
+      {(context.active && (context.connectorName === 'Network')) && 
+      <p>You do not currently have Metamask activated.  Please unlock Metamask in order to begin ENS domain registration process.</p>
+      }
+      
+      {((context.active && (context.connectorName === 'Network'))|| (context.error && context.connectorName)) && (
         <Button onClick={() => context.unsetConnector()}>
-          {context.active ? "Deactivate Connector" : "Reset"}
+          {context.active ? "Retry Metamask" : "Reset"}
         </Button>
       )}
     </React.Fragment>

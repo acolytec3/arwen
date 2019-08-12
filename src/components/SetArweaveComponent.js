@@ -68,7 +68,8 @@ function SetArweaveComponent (props) {
               <Form.Text className="text-muted">
                 Enter the ENS domain or subdomain and retrieve any associated Arweave content
               </Form.Text>
-            </Form.Group>     
+            </Form.Group>
+          {context.connectorName === 'Injected' &&              
           <Form onSubmit={handleArweaveSubmit}>
             <Form.Group controlId='arweaveId'>
               <Form.Label>Arweave Transaction ID</Form.Label>
@@ -80,7 +81,7 @@ function SetArweaveComponent (props) {
             <Button variant="primary" type="submit">
               Link ENS to Arweave
             </Button>
-          </Form>
+          </Form>}
       </Form>
       <Button variant="primary" type="submit" onClick={handleENSSubmit}>Retrieve Arweave Resource</Button>
 

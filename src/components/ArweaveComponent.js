@@ -83,7 +83,7 @@ function ArweaveComponent ()
         return null
     }
 
-    if (context.active){
+    if (context.active && (context.connectorName === 'Injected')){
     return (
         <React.Fragment>
           {!wallet && <div className="container text-center mt-5">
