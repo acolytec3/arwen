@@ -2,7 +2,7 @@ import React from 'react';
 import { ethers } from "ethers";
 import { useWeb3Context } from "web3-react";
 import { registrarAbi } from "../Registrar.js"
-import { Navbar, Form, FormControl, Button, ProgressBar } from 'react-bootstrap';
+import { Navbar, Form, FormControl, Button, ProgressBar, Row, Col, Container } from 'react-bootstrap';
 import { ethControllerAbi } from '../EthController.js'
 
 function ENSRegistrationComponent() {
@@ -49,6 +49,7 @@ function ENSRegistrationComponent() {
   async function registerEnsDomain()
   {
     const signer = context.library.getSigner()
+    const provider = ethers.getDefaultProvider()
     console.log("ENS Domain Name Hash is " + ensDomainName)
     const ethController = new ethers.Contract('0x357DBd063BeA7F0713BF88A3e97B7436B0235979', ethControllerAbi, signer)
     var domainName = ensDomainName.split('.')[0]
@@ -62,6 +63,7 @@ function ENSRegistrationComponent() {
     console.log("The commit hash for this registration request is " + commitmentHash + " and the commit secret is " + commitSecret)
     var rentPrice = await ethController.rentPrice(domainName, 31535999)
     console.log('ENS Domain Name Rent Price: ' + rentPrice)
+    setEnsSpinner({state: "Committing Domain", per:33})
     txid = await ethController.commit(commitmentHash)
     console.log(txid)
     await txid.wait()
@@ -69,41 +71,55 @@ function ENSRegistrationComponent() {
     var minCommitTime = minCommitTimeBN.toNumber()
     await new Promise(resolve => setTimeout(resolve, minCommitTime*1000))
     console.log('Waited ' + minCommitTime + ' seconds')
-    txid = await ethController.register(domainName, signer._address, ethers.utils.bigNumberify(31535999), commitSecret, { value: rentPrice, gasLimit: 300000, gasPrice: 15 })
+    var gasPrice = await provider.getGasPrice()
+    setEnsSpinner({state: "Registering Domain", per:66})
+    txid = await ethController.register(domainName, signer._address, ethers.utils.bigNumberify(31535999), commitSecret, { value: rentPrice, gasLimit: 300000, gasPrice: gasPrice })
     await txid.wait()
     console.log("Registered " + ensDomainName + " with transaction " + txid)
     const registrar = new ethers.Contract('0x112234455c3a32fd11230c42e7bccd4a84e02010', registrarAbi, signer)
+    setEnsSpinner({state: "Setting Resolver", per:90})
     txid = await registrar.setResolver(ethers.utils.namehash(ensDomainName),'0x5FfC014343cd971B7eb70732021E26C35B744cc4')
     await txid.wait()
     console.log(txid)
-
+    setEnsSpinner({state: "Domain Registered", per:100})
+    await new Promise(resolve => setTimeout(resolve, 5000))
+    setEnsSpinner({per:0})
  }
 
   if (context.active){
   return (
-    <Navbar className="bg-light justify-content-between">
-      <Form inline onSubmit={handleEnsDomainSubmit}>
+  <Container>
+      <Row>
+        <Col>
+          <Form  onSubmit={handleEnsDomainSubmit}>
+            <FormControl
+              placeholder="alice.eth"
+              aria-label="ENSDomain"
+              type='text'
+              value={ensDomainName}
+              onChange={handleEnsDomainChange}
+              aria-describedby="basic-addon1"
+            />
+          <Button type="submit" disabled={setEnsSpinner.per > 0}>Register Domain</Button>
+        </Form>
+      </Col>
+      <Col>
+        <Form onSubmit={handleEnsSubdomainSubmit}>
           <FormControl
-            placeholder="alice.eth"
-            aria-label="ENSDomain"
-            type='text'
-            value={ensDomainName}
-            onChange={handleEnsDomainChange}
-            aria-describedby="basic-addon1"
-          />
-        <Button type="submit" disabled={setEnsSpinner.per > 0}>Register Domain</Button>
+            type="text"
+            value={ensSubDomainName}
+            onChange={handleEnsSubDomainChange}
+            placeholder="bob.alice.eth"
+            className=" mr-sm-2" />
+          <Button type="submit">Register Subdomain</Button>
+        </Form>
+        </Col>
+      </Row>
+      <Row>
         {ensSpinner.per > 0 && <ProgressBar now={ensSpinner.per} label={ensSpinner.state} />}
-      </Form>
-      <Form inline onSubmit={handleEnsSubdomainSubmit}>
-        <FormControl
-          type="text"
-          value={ensSubDomainName}
-          onChange={handleEnsSubDomainChange}
-          placeholder="bob.alice.eth"
-          className=" mr-sm-2" />
-        <Button type="submit">Register Subdomain</Button>
-      </Form>
-    </Navbar>
+      </Row>
+   </Container>
+
   )}
   else return null
 }
