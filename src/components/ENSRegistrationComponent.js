@@ -100,10 +100,7 @@ function ENSRegistrationComponent() {
               aria-describedby="basic-addon1"
             />
               <Form.Text className="text-muted">
-                Requires three separate transactions:
-                1) A committment transaction indicating intent to register the domain
-                2) The registration transaction that actually registers the ENS domain
-                3) A transaction to set the resolver for your domain name so your domain name can be resolved to your address
+                3 Transactions - Commit; Register Domain; Set resolver
               </Form.Text>
           <Button type="submit" disabled={setEnsSpinner.per > 0}>Register Domain</Button>
         </Form>
@@ -116,6 +113,9 @@ function ENSRegistrationComponent() {
             onChange={handleEnsSubDomainChange}
             placeholder="bob.alice.eth"
             className=" mr-sm-2" />
+          <Form.Text className="text-muted">
+            2 Transactions - Register Subdomain; Set resolver
+           </Form.Text>
           <Button type="submit">Register Subdomain</Button>
         </Form>
         </Row>
