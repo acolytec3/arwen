@@ -86,7 +86,7 @@ function ENSRegistrationComponent() {
     setEnsSpinner({per:0})
  }
 
-  if (context.active){
+  if (context.active && (context.connectorName === 'Injected')){
   return (
   <Container>
       <Row>

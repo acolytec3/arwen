@@ -16,7 +16,7 @@ const {
 
 const supportedNetworkURLs = {
   1: "https://mainnet.infura.io/v3/",
-  3: "https://ropsten.infura.io/v3/",
+  3: "https://ropsten.infura.io/v3/c4809a978c5b48c8a5b8fdc9133cef42",
   4: "https://rinkeby.infura.io/v3/"
 };
 
@@ -27,7 +27,7 @@ const Injected = new InjectedConnector({
 });
 
 const Network = new NetworkOnlyConnector({
-  providerURL: supportedNetworkURLs[1]
+  providerURL: supportedNetworkURLs[3]
 });
 /*
 const Trezor = new TrezorConnector({
