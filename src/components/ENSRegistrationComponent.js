@@ -90,7 +90,6 @@ function ENSRegistrationComponent() {
   return (
   <Container>
       <Row>
-        <Col>
           <Form  onSubmit={handleEnsDomainSubmit}>
             <FormControl
               placeholder="alice.eth"
@@ -100,10 +99,16 @@ function ENSRegistrationComponent() {
               onChange={handleEnsDomainChange}
               aria-describedby="basic-addon1"
             />
+              <Form.Text className="text-muted">
+                Requires three separate transactions:
+                1) A committment transaction indicating intent to register the domain
+                2) The registration transaction that actually registers the ENS domain
+                3) A transaction to set the resolver for your domain name so your domain name can be resolved to your address
+              </Form.Text>
           <Button type="submit" disabled={setEnsSpinner.per > 0}>Register Domain</Button>
         </Form>
-      </Col>
-      <Col>
+        </Row>
+      <Row>
         <Form onSubmit={handleEnsSubdomainSubmit}>
           <FormControl
             type="text"
@@ -113,8 +118,7 @@ function ENSRegistrationComponent() {
             className=" mr-sm-2" />
           <Button type="submit">Register Subdomain</Button>
         </Form>
-        </Col>
-      </Row>
+        </Row>
       <Row>
         {ensSpinner.per > 0 && <ProgressBar now={ensSpinner.per} label={ensSpinner.state} />}
       </Row>
