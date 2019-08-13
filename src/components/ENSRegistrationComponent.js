@@ -5,6 +5,7 @@ import { registrarAbi } from "../Registrar.js"
 import { Alert, Form, FormControl, Button, ProgressBar, Row, Col, Container } from 'react-bootstrap';
 import { ethControllerAbi } from '../EthController.js'
 
+
 function ENSRegistrationComponent() {
   const context = useWeb3Context();
   const [ensSubDomainName, setEnsSubDomainName] = React.useState()
@@ -111,11 +112,13 @@ function ENSRegistrationComponent() {
               <Form.Text className="text-muted">
                 3 Transactions - Commit; Register Domain; Set resolver
               </Form.Text>
-          <Button type="submit" disabled={ensSpinner.per > 0}>
-            {(ensSpinner.per > 0) ? 'Registering Domain' : 'Register Domain'}</Button>
-           <Alert show={!ensDomainAvailable} key='domainalert' variant='danger'>
-            That ENS domain name is not available
-          </Alert>
+          <div className='container pt-2 text-center '>
+            <Button type="submit" disabled={ensSpinner.per > 0}>
+              {(ensSpinner.per > 0) ? 'Registering Domain' : 'Register Domain'}</Button>
+            <Alert show={!ensDomainAvailable} key='domainalert' variant='danger'>
+              That ENS domain name is not available
+            </Alert>
+          </div>
         </Form>
         </Col>
       <Col>
@@ -129,7 +132,9 @@ function ENSRegistrationComponent() {
           <Form.Text className="text-muted">
             2 Transactions - Register Subdomain; Set resolver
            </Form.Text>
-          <Button type="submit">Register Subdomain</Button>
+           <div className='container pt-2 text-center '>
+            <Button type="submit">Register Subdomain</Button>
+          </div>
         </Form>
         </Col>
         </Row>

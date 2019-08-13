@@ -10,8 +10,8 @@ const baseStyle = {
     flexDirection: 'column',
     alignItems: 'center',
     padding: '20px',
-    borderWidth: 2,
-    borderRadius: 2,
+    borderWidth: 1,
+    borderRadius: 1,
     borderColor: '#eeeeee',
     borderStyle: 'dashed',
     backgroundColor: '#fafafa',
@@ -127,6 +127,7 @@ function ArweaveComponent ()
     if (context.active && (context.connectorName === 'Injected')){
     return (
         <React.Fragment>
+          <div className='container mt-3 text-center'><h3>Arweave registration/file deployment</h3></div>
           {!wallet && <div className="container text-center mt-5">
             <div {...getRootProps({style})}>
                 <input {...getInputProps()} />
@@ -135,17 +136,17 @@ function ArweaveComponent ()
                 {isDragReject && "Please only drop your keyfile "}
             </div>
           </div>}
-          <div>
-              {wallet && <p>Your Arweave wallet address is {wallet.address}</p>}
+          <div className='container text-left'>
+              {wallet && <p>Arweave wallet address: {wallet.address}</p>}
           </div>
-          <div>
-              {balance && <p>Your Arweave wallet's current balance in winston is {balance}</p>}
+          <div className='container text-left'>
+              {balance && <p>Arweave wallet balance: {balance} winston</p>}
           </div>
           
           {wallet && balance && !data && <div className="container text-center mt-5">
             <div {...getRootProps({style})}>
                 <input {...getInputProps()} />
-                {!isDragActive && 'Click here or drop a file to deploy to Arweave'}
+                {!isDragActive && 'Click here or drop a file to deploy to Arweave.'}
                 {isDragActive && !isDragReject && "Drop file here"}
                 {isDragReject && "Please only drop HTML or Text files here"}
             </div>

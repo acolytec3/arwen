@@ -61,6 +61,8 @@ function SetArweaveComponent (props) {
   if (context.active){
     return (
       <React.Fragment>
+        {context.connectorName === 'Injected' &&
+          <div className='container mt-4 text-center'><h3>Link ENS to hosted Arweave page</h3></div>}
         {context.connectorName === 'Injected' &&              
           <Form onSubmit={handleArweaveSubmit}>
            <Row>
@@ -89,9 +91,10 @@ function SetArweaveComponent (props) {
              </Button>
           </Row>
         </Form>}
-
       <Row>
-        <Button variant="primary" type="submit" onClick={handleENSSubmit}>Retrieve Arweave Resource</Button>
+        <div className='container py-3 text-center'>
+          <Button variant="primary" type="submit" onClick={handleENSSubmit}>Retrieve Arweave Resource</Button>
+        </div>
       </Row>
         {arweaveURL !== 'none' && 
         <p>The Arweave transction ID is: {arweaveURL}</p>}
@@ -100,7 +103,7 @@ function SetArweaveComponent (props) {
       </React.Fragment>
     )
   }
-  else return <p>Connection not active</p>
+  else return null
 }
 
 export default SetArweaveComponent;

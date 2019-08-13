@@ -19,7 +19,8 @@ function App() {
     <Route exact path="/" render={() =>
     <Web3Provider connectors={connectors} libraryName="ethers.js">
       <Container className="App">
-        <Row><Col><h1>ArwENS</h1></Col></Row>
+        <Row><div className='container text-center'><h1>ArwENS</h1></div></Row>
+        <Row><div className='container text-center'>A simple Dapp for registering ENS domains and linking to content hosted on Arweave</div></Row>
         <Row>
           <Col>
             <ActivateConnectors />
