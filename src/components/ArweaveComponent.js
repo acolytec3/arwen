@@ -123,6 +123,7 @@ function ArweaveComponent ()
         isDragReject
       ]);
 
+
     if (context.active && (context.connectorName === 'Injected')){
     return (
         <React.Fragment>
