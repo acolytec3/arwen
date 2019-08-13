@@ -28,15 +28,11 @@ function ArweaveRouterComponent (props) {
     getArweaveFromENS()
     return (
       <React.Fragment>
-      <p>{props.domainName}</p>
-        {arweaveURL !== 'none' && 
-        <p>The Arweave transction ID is: {arweaveURL}</p>}
-         {arweaveURL !== 'none' && 
-        <GetArweaveResource arweaveHash={arweaveURL} />}
+        <GetArweaveResource arweaveHash={arweaveURL} />
       </React.Fragment>
     )
   }
-  else return <p>Connection not active</p>
+  else return <p>No Web3 connection found</p>
 }
 
 export default ArweaveRouterComponent;
