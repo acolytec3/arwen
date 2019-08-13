@@ -98,7 +98,7 @@ function ENSRegistrationComponent() {
   return (
   <Container>
       <Row>
-          <Form  onSubmit={handleEnsDomainSubmit}>
+          <Form onSubmit={handleEnsDomainSubmit}>
             <FormControl
               placeholder="alice.eth"
               aria-label="ENSDomain"
