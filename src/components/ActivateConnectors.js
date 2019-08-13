@@ -58,7 +58,8 @@ function ActivateConnectors(props) {
           <p> The Dapp will walk you through it but below are the steps</p>
           <ol>
             <li> Pick an ENS domain/subdomain to registering</li>
-            <li> Provide your Arweave key file</li>
+            <li> Provide your Arweave key file<br />
+            <span>Note, this key file is never leaving your device.  The Dapp is just using it to talk to Arweave.</span></li>
             <li> Upload your text/html file to the permaweb</li>
             <li> Link your ENS domain to your permanently hosted file</li>
             <li> Share your newly hosted page with everyone</li>
