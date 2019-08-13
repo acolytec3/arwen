@@ -154,7 +154,12 @@ function ArweaveComponent (props)
           </div>}
           {data && <p>The contents of your file are below<p></p>
             <p></p>{data}</p>}
-          {arweaveTxn && <p>The Transaction ID for your generated transaction is {arweaveTxn.id} and will cost {arweaveTxn.reward} winston</p>}
+          {arweaveTxn && 
+            <ul>
+                <li>Transaction ID: <a href={"https://arweave.net/tx/" + arweaveTxn.id} target="_blank">{arweaveTxn.id}</a></li> 
+                <li>Transaction Cost: {arweaveTxn.reward} winston</li>
+            </ul>
+            }
           <Row>{arweaveTxn && 
           <Col><div className="container pt-1">
            <Button 

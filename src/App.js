@@ -37,7 +37,7 @@ function App() {
     <Route path="/:id" render={(routeProps) =>       
       <Web3Provider connectors={connectors} libraryName="ethers.js">
         <Row><Col>
-            <ActivateConnectors />
+            <ActivateConnectors source='router'/>
             <ArweaveRouterComponent domainName={routeProps.match.params.id} />
         </Col></Row>
       </Web3Provider>

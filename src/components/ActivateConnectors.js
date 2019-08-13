@@ -4,16 +4,24 @@ import { useWeb3Context } from "web3-react";
 import Web3ConsumerComponent from './Web3ConsumerComponent.js'
 import { Button, Modal } from 'react-bootstrap';
 
-function ActivateConnectors() {
+function ActivateConnectors(props) {
   const context = useWeb3Context();
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
 
   console.log(Object.keys(connectors));
-  context.setFirstValidConnector(['Injected','Network'])
+  if (props.source === 'router'){
+    context.setConnector('Network')
+  }
+  else context.setFirstValidConnector(['Injected','Network'])
   if (context.error) {
     console.error("Error!");
   }
+  if (props.source === 'router')
+  {  
+    return null
+  }
+  else {
   return (
     <React.Fragment>
       {context.error && (
@@ -62,6 +70,8 @@ function ActivateConnectors() {
       )}
     </React.Fragment>
   );
-}
+  }
+  
+}   
 
 export default ActivateConnectors;
