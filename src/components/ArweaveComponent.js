@@ -41,7 +41,7 @@ function ArweaveComponent (props)
     const [wallet, setWallet] = React.useState()
     const [balance, setBalance] = React.useState()
     const [data, setData] = React.useState()
-    const [arweaveTxn, setTxn] = React.useState()
+    const [arweaveTxn, setTxn] = React.useState('')
 
     React.useEffect(() => {
         if (wallet){
@@ -155,25 +155,26 @@ function ArweaveComponent (props)
           {data && <p>The contents of your file are below<p></p>
             <p></p>{data}</p>}
           {arweaveTxn && <p>The Transaction ID for your generated transaction is {arweaveTxn.id} and will cost {arweaveTxn.reward} winston</p>}
-          {arweaveTxn && 
+          <Row>{arweaveTxn && 
+          <Col><div className="container pt-1">
            <Button 
                 key='submitTxn'
                 onClick={() => postTransaction(arweaveTxn)}
                 >Submit Transaction
-            </Button>}
-            {arweaveTxn && <Button
+            </Button></div></Col>}
+            {arweaveTxn && <Col><div className="container pt-1"><Button
                 key='reset'
                 onClick={() => {
                     setData()
-                    setTxn()    
+                    setTxn('')    
                 }}
-                >Start Over</Button>
-            }
-          <Row>
+                >Start Over</Button></div></Col>
+            }</Row>
+          {(arweaveTxn !== '') && <Row>
             <Col>
               <SetArweaveComponent ensDomainName={props.ensDomainName} ensSubDomainName={props.ensSubDomainName}/>
             </Col>
-        </Row>
+          </Row>}
         </React.Fragment>
     )}
     else return null

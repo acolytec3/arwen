@@ -139,7 +139,8 @@ function ENSRegistrationComponent() {
         </Col>
         </Row>
       <Row>
-        {ensSpinner.per > 0 && <ProgressBar now={ensSpinner.per} label={ensSpinner.state} />}
+        {ensSpinner.per > 0 && <div className='container text-center'>
+        <ProgressBar now={ensSpinner.per} label={ensSpinner.state} /></div>}
       </Row>
       {ensSpinner.per === 100 && 
       <Row>
