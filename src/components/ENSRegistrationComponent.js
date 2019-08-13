@@ -4,7 +4,7 @@ import { useWeb3Context } from "web3-react";
 import { registrarAbi } from "../Registrar.js"
 import { Alert, Form, FormControl, Button, ProgressBar, Row, Col, Container } from 'react-bootstrap';
 import { ethControllerAbi } from '../EthController.js'
-
+import ArweaveComponent from "../components/ArweaveComponent"
 
 function ENSRegistrationComponent() {
   const context = useWeb3Context();
@@ -46,12 +46,14 @@ function ENSRegistrationComponent() {
     var domainNameHash = ethers.utils.namehash(names[1] + '.' + names[2])
     console.log(subdomainNameHash)
     const registrar = new ethers.Contract('0x112234455c3a32fd11230c42e7bccd4a84e02010', registrarAbi, signer)
+    setEnsSpinner({state:'Registering subdomain',per:33})
     var txid = await registrar.setSubnodeOwner(domainNameHash,subdomainNameHash,registrar.owner(domainNameHash))
     console.log(txid)
     await txid.wait()
+    setEnsSpinner({state:'Setting Resolver',per:66})
     txid = await registrar.setResolver(ethers.utils.namehash(ensSubDomainName),'0x5FfC014343cd971B7eb70732021E26C35B744cc4')
     console.log(txid)
-
+    setEnsSpinner({state:'Domain Registered',per:100})
   }
 
   async function registerEnsDomain()
@@ -91,8 +93,6 @@ function ENSRegistrationComponent() {
     await txid.wait()
     console.log(txid)
     setEnsSpinner({state: "Domain Registered", per:100})
-    await new Promise(resolve => setTimeout(resolve, 5000))
-    setEnsSpinner({per:0})
  }
 
   if (context.active && (context.connectorName === 'Injected')){
@@ -141,6 +141,12 @@ function ENSRegistrationComponent() {
       <Row>
         {ensSpinner.per > 0 && <ProgressBar now={ensSpinner.per} label={ensSpinner.state} />}
       </Row>
+      {ensSpinner.per === 100 && 
+      <Row>
+          <Col>
+            <ArweaveComponent ensDomainName={ensDomainName} ensSubDomainName={ensSubDomainName}/>
+          </Col>
+      </Row>}
    </Container>
 
   )}
