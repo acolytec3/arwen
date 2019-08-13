@@ -134,13 +134,6 @@ function ArweaveComponent ()
                 {isDragActive && !isDragReject && "Drop keyfile here"}
                 {isDragReject && "Please only drop your keyfile "}
             </div>
-            <ul className="list-group mt-2">
-                {acceptedFiles.length > 0 && acceptedFiles.map(acceptedFile => (
-                    <li className="list-group-item list-group-item-success">
-                    {acceptedFile.name}
-                </li>
-                ))}
-            </ul>
           </div>}
           <div>
               {wallet && <p>Your Arweave wallet address is {wallet.address}</p>}
@@ -156,13 +149,6 @@ function ArweaveComponent ()
                 {isDragActive && !isDragReject && "Drop file here"}
                 {isDragReject && "Please only drop HTML or Text files here"}
             </div>
-            <ul className="list-group mt-2">
-                {acceptedFiles.length > 0 && acceptedFiles.map(acceptedFile => (
-                    <li className="list-group-item list-group-item-success">
-                    {acceptedFile.name}
-                </li>
-                ))}
-            </ul>
           </div>}
           {data && <p>The contents of your file are below<p></p>
             <p></p>{data}</p>}
