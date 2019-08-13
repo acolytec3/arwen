@@ -105,7 +105,7 @@ function ArweaveComponent ()
         console.log(transaction)
         const response = await arw.transactions.post(transaction)
         console.log(response)
-
+        setData()
         return response.status
     }
 
@@ -149,7 +149,7 @@ function ArweaveComponent ()
               {balance && <p>Your Arweave wallet's current balance in winston is {balance}</p>}
           </div>
           
-          {wallet && balance && <div className="container text-center mt-5">
+          {wallet && balance && !data && <div className="container text-center mt-5">
             <div {...getRootProps({style})}>
                 <input {...getInputProps()} />
                 {!isDragActive && 'Click here or drop a file to deploy to Arweave'}
@@ -172,8 +172,15 @@ function ArweaveComponent ()
                 key='submitTxn'
                 onClick={() => postTransaction(arweaveTxn)}
                 >Submit Transaction
-            </Button>
-          }
+            </Button>}
+            {arweaveTxn && <Button
+                key='reset'
+                onClick={() => {
+                    setData()
+                    setTxn()    
+                }}
+                >Start Over</Button>
+            }
         </React.Fragment>
     )}
     else return null
