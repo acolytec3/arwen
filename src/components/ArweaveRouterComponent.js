@@ -28,7 +28,7 @@ function ArweaveRouterComponent (props) {
     getArweaveFromENS()
     return (
       <React.Fragment>
-        <GetArweaveResource arweaveHash={arweaveURL} />
+        <GetArweaveResource arweaveHash={arweaveURL} source='router'/>
       </React.Fragment>
     )
   }

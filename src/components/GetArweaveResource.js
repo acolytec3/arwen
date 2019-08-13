@@ -18,7 +18,11 @@ function GetArweaveResource (props) {
     let page = trxn.get('data', {decode: true, string: true})
     setArweavePage(page);
     console.log(arweavePage)
-    window.open('https://arweave.net/'+props.arweaveHash, '_self')
+    if (props.source === 'router'){
+      window.open('https://arweave.net/'+props.arweaveHash, '_self')
+    }
+    else window.open('https://arweave.net/'+props.arweaveHash, '_blank')
+    
   })
   .catch(error => {
     console.log(error)

@@ -88,7 +88,7 @@ function SetArweaveComponent (props) {
         {arweaveURL !== 'none' && 
         <p>The Arweave transction ID is: {arweaveURL}</p>}
          {arweaveURL !== 'none' && 
-        <GetArweaveResource arweaveHash={arweaveURL} />}
+        <GetArweaveResource arweaveHash={arweaveURL} source='app' />}
       </React.Fragment>
     )
   }
