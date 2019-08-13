@@ -66,7 +66,7 @@ function SetArweaveComponent (props) {
               <Form.Label>ENS Domain</Form.Label>
               <Form.Control type="text" placeholder="alice.eth" onChange={handleENSChange}/>
               <Form.Text className="text-muted">
-                Enter the ENS domain or subdomain and retrieve any associated Arweave content
+                Enter the ENS domain or subdomain you wish to link to Arweave content
               </Form.Text>
             </Form.Group>
           {context.connectorName === 'Injected' &&              
