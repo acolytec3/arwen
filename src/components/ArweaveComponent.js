@@ -177,7 +177,7 @@ function ArweaveComponent (props)
             }</Row>
           {(arweaveTxn !== '') && <Row>
             <Col>
-              <SetArweaveComponent ensDomainName={props.ensDomainName} ensSubDomainName={props.ensSubDomainName}/>
+              <SetArweaveComponent domainName={props.domainName} txid={arweaveTxn.id}/>
             </Col>
           </Row>}
         </React.Fragment>

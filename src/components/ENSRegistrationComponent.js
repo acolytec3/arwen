@@ -12,7 +12,7 @@ function ENSRegistrationComponent() {
   const [ensDomainName, setEnsDomainName] = React.useState()
   const [ensSpinner, setEnsSpinner] = React.useState({state:'Not Started', per: 0})
   const [ensDomainAvailable, setEnsDomainAvailable] = React.useState(true)
-
+  const [domain, setDomain] = React.useState()
 
   const handleEnsSubDomainChange = evt => {
     setEnsSubDomainName(evt.target.value)
@@ -54,6 +54,7 @@ function ENSRegistrationComponent() {
     txid = await registrar.setResolver(ethers.utils.namehash(ensSubDomainName),'0x5FfC014343cd971B7eb70732021E26C35B744cc4')
     console.log(txid)
     setEnsSpinner({state:'Domain Registered',per:100})
+    setDomain(ensSubDomainName)
   }
 
   async function registerEnsDomain()
@@ -93,6 +94,7 @@ function ENSRegistrationComponent() {
     await txid.wait()
     console.log(txid)
     setEnsSpinner({state: "Domain Registered", per:100})
+    setDomain(ensDomainName)
  }
 
   if (context.active && (context.connectorName === 'Injected')){
@@ -145,7 +147,7 @@ function ENSRegistrationComponent() {
       {ensSpinner.per === 100 && 
       <Row>
           <Col>
-            <ArweaveComponent ensDomainName={ensDomainName} ensSubDomainName={ensSubDomainName}/>
+            <ArweaveComponent domainName={domain}/>
           </Col>
       </Row>}
    </Container>

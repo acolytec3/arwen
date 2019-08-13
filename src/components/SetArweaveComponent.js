@@ -69,7 +69,7 @@ function SetArweaveComponent (props) {
             <Col>
             <Form.Group controlId='ensDomain'>
               <Form.Label>ENS Domain</Form.Label>
-              <Form.Control type="text" placeholder="alice.eth" onChange={handleENSChange}/>
+              <Form.Control type="text" defaultValue= {props.domainName} placeholder="alice.eth" onChange={handleENSChange}/>
               <Form.Text className="text-muted">
                 Enter the ENS domain or subdomain you wish to link to Arweave content
               </Form.Text>
@@ -78,7 +78,7 @@ function SetArweaveComponent (props) {
            <Col>
             <Form.Group controlId='arweaveId'>
               <Form.Label>Arweave Transaction ID</Form.Label>
-              <Form.Control type="text" placeholder="" onChange={handleArweaveChange}/>
+              <Form.Control type="text" defaultValue={props.txid} onChange={handleArweaveChange}/>
               <Form.Text className="text-muted">
                 Enter the Arweave transaction ID you want link to your ENS domain/subdomain
               </Form.Text>
