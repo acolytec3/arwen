@@ -39,10 +39,12 @@ function ActivateConnectors() {
           <h4>What you need to get started</h4>
           <ol>
             <li> Metamask - you've already unlocked this if you're seeing this</li>
-            <li> An Arweave wallet keyfile</li>
+            <li> An Arweave wallet with some AR in it<br />
+            <span> Get a free one <a href="https://tokens.arweave.org" target="_blank">here</a> with 1 AR so you can try it out</span></li>
             <li> Something you want to host permanently on the permaweb</li>
           </ol>
           <h4>How do I do this?</h4>
+          <p> The Dapp will walk you through it but below are the steps</p>
           <ol>
             <li> Pick an ENS domain/subdomain to registering</li>
             <li> Provide your Arweave key file</li>
