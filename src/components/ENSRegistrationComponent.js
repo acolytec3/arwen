@@ -10,6 +10,8 @@ function ENSRegistrationComponent() {
   const [ensSubDomainName, setEnsSubDomainName] = React.useState()
   const [ensDomainName, setEnsDomainName] = React.useState()
   const [ensSpinner, setEnsSpinner] = React.useState({state:'Not Started', per: 0})
+  const [ensDomainAvailable, setEnsDomainAvailable] = React.useState(true)
+
 
   const handleEnsSubDomainChange = evt => {
     setEnsSubDomainName(evt.target.value)
@@ -23,13 +25,17 @@ function ENSRegistrationComponent() {
 
   const handleEnsDomainChange = evt => {
     setEnsDomainName(evt.target.value)
-    setEnsSpinner({state:'',per:0})
+    setEnsDomainAvailable(true)
     console.log('Setting ENS Domain Name to ' + ensDomainName)
   }
 
   const handleEnsDomainSubmit = (evt) => {
     evt.preventDefault();
     registerEnsDomain()
+    .catch(error => {
+      setEnsSpinner({state:'',per:0})
+      console.log(error)
+    })
   }
   async function registerEnsSubDomain()
   {
@@ -57,7 +63,7 @@ function ENSRegistrationComponent() {
     var txid = await ethController.available(domainName)
     console.log(txid)
     if (txid === false) {
-      setEnsSpinner({state:'noname', per: 0})
+      setEnsDomainAvailable(false)
       return console.log('Domain name unavailable')
     }
     var commitSecret = ethers.utils.formatBytes32String(domainName)
@@ -105,9 +111,9 @@ function ENSRegistrationComponent() {
                 3 Transactions - Commit; Register Domain; Set resolver
               </Form.Text>
           <Button type="submit" disabled={setEnsSpinner.per > 0}>Register Domain</Button>
-          {(ensSpinner.state==='noname') && <Alert key='domainalert' variant='danger'>
+           <Alert show={!ensDomainAvailable} key='domainalert' variant='danger'>
             That ENS domain name is not available
-          </Alert>}
+          </Alert>
         </Form>
         </Row>
       <Row>
