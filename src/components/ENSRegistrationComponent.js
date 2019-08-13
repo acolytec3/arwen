@@ -98,6 +98,7 @@ function ENSRegistrationComponent() {
   return (
   <Container>
       <Row>
+        <Col>
           <Form onSubmit={handleEnsDomainSubmit}>
             <FormControl
               placeholder="alice.eth"
@@ -116,8 +117,8 @@ function ENSRegistrationComponent() {
             That ENS domain name is not available
           </Alert>
         </Form>
-        </Row>
-      <Row>
+        </Col>
+      <Col>
         <Form onSubmit={handleEnsSubdomainSubmit}>
           <FormControl
             type="text"
@@ -130,6 +131,7 @@ function ENSRegistrationComponent() {
            </Form.Text>
           <Button type="submit">Register Subdomain</Button>
         </Form>
+        </Col>
         </Row>
       <Row>
         {ensSpinner.per > 0 && <ProgressBar now={ensSpinner.per} label={ensSpinner.state} />}
