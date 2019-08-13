@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import connectors from "../Connectors.js";
 import { useWeb3Context } from "web3-react";
-import Web3ConsumerComponent from './Web3ConsumerComponent.js'
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Row } from 'react-bootstrap';
 
 function ActivateConnectors(props) {
   const context = useWeb3Context();
@@ -24,12 +23,16 @@ function ActivateConnectors(props) {
   else {
   return (
     <React.Fragment>
-      {context.error && (
-        <p>Please verify that you have Metamask unlocked and try again</p>
-      )}
+      <Row><div className="container text-center">
+        {context.error && (
+          <p>Please verify that you have Metamask unlocked and try again</p>
+        )}
+      </div></Row>
+      <Row><div className="container text-center">
       {(context.active && (context.connectorName === 'Network')) && 
       <p>You do not currently have Metamask activated.  Please unlock Metamask in order to begin ENS domain registration process.</p>
       }
+      </div></Row>
       {(context.connectorName === 'Injected') &&
       <Modal 
         size="lg" 
@@ -62,12 +65,13 @@ function ActivateConnectors(props) {
           </ol>
         </Modal.Body>
       </Modal> }
-      
-      {((context.active && (context.connectorName === 'Network'))|| (context.error && context.connectorName)) && (
-        <Button onClick={() => context.unsetConnector()}>
-          {context.active ? "Retry Metamask" : "Reset"}
-        </Button>
-      )}
+      <div className='container text-center'>
+        {((context.active && (context.connectorName === 'Network'))|| (context.error && context.connectorName)) && (
+          <Button onClick={() => context.unsetConnector()}>
+            {context.active ? "Retry Metamask" : "Reset"}
+          </Button>
+        )}
+      </div>
     </React.Fragment>
   );
   }
