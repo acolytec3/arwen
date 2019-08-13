@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import Arweave from 'arweave/web';
 import { useWeb3Context } from "web3-react";
+import SetArweaveComponent from "../components/SetArweaveComponent.js";
 
 const baseStyle = {
     flex: 1,
@@ -32,7 +33,7 @@ const baseStyle = {
     borderColor: '#ff1744'
   };
 
-function ArweaveComponent ()
+function ArweaveComponent (props)
 {
 
 
@@ -168,6 +169,11 @@ function ArweaveComponent ()
                 }}
                 >Start Over</Button>
             }
+          <Row>
+            <Col>
+              <SetArweaveComponent ensDomainName={props.ensDomainName} ensSubDomainName={props.ensSubDomainName}/>
+            </Col>
+        </Row>
         </React.Fragment>
     )}
     else return null

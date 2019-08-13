@@ -31,11 +31,7 @@ function App() {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
-            <SetArweaveComponent />
-          </Col>
-        </Row>
+
       </Container>
     </Web3Provider>}/>
     <Route path="/:id" render={(routeProps) =>       
