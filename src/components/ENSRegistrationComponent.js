@@ -110,7 +110,8 @@ function ENSRegistrationComponent() {
               <Form.Text className="text-muted">
                 3 Transactions - Commit; Register Domain; Set resolver
               </Form.Text>
-          <Button type="submit" disabled={setEnsSpinner.per > 0}>Register Domain</Button>
+          <Button type="submit" disabled={ensSpinner.per > 0}>
+            {(ensSpinner.per > 0) ? 'Registering Domain' : 'Register Domain'}</Button>
            <Alert show={!ensDomainAvailable} key='domainalert' variant='danger'>
             That ENS domain name is not available
           </Alert>
