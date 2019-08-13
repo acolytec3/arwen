@@ -31,7 +31,7 @@ function GetArweaveResource (props) {
   if (arweavePage === 'error'){
   return (
     <React.Fragment>
-      {arweavePage === 'error' && <p>No Arweave resource found</p>}
+      {arweavePage === 'error' && <p>Still lost in the permaweb</p>}
     </React.Fragment>
     )}
   else return null

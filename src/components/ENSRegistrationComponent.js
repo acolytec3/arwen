@@ -2,7 +2,7 @@ import React from 'react';
 import { ethers } from "ethers";
 import { useWeb3Context } from "web3-react";
 import { registrarAbi } from "../Registrar.js"
-import { Navbar, Form, FormControl, Button, ProgressBar, Row, Col, Container } from 'react-bootstrap';
+import { Alert, Form, FormControl, Button, ProgressBar, Row, Col, Container } from 'react-bootstrap';
 import { ethControllerAbi } from '../EthController.js'
 
 function ENSRegistrationComponent() {
@@ -23,6 +23,7 @@ function ENSRegistrationComponent() {
 
   const handleEnsDomainChange = evt => {
     setEnsDomainName(evt.target.value)
+    setEnsSpinner({state:'',per:0})
     console.log('Setting ENS Domain Name to ' + ensDomainName)
   }
 
@@ -56,6 +57,7 @@ function ENSRegistrationComponent() {
     var txid = await ethController.available(domainName)
     console.log(txid)
     if (txid === false) {
+      setEnsSpinner({state:'noname', per: 0})
       return console.log('Domain name unavailable')
     }
     var commitSecret = ethers.utils.formatBytes32String(domainName)
@@ -103,6 +105,9 @@ function ENSRegistrationComponent() {
                 3 Transactions - Commit; Register Domain; Set resolver
               </Form.Text>
           <Button type="submit" disabled={setEnsSpinner.per > 0}>Register Domain</Button>
+          {(ensSpinner.state==='noname') && <Alert key='domainalert' variant='danger'>
+            That ENS domain name is not available
+          </Alert>}
         </Form>
         </Row>
       <Row>
