@@ -96,10 +96,17 @@ function SetArweaveComponent (props) {
           <Button variant="primary" type="submit" onClick={handleENSSubmit}>Retrieve Arweave Resource</Button>
         </div>
       </Row>
+      <Row>
         {arweaveURL !== 'none' && 
         <p>The Arweave transction ID is: {arweaveURL}</p>}
          {arweaveURL !== 'none' && 
         <GetArweaveResource arweaveHash={arweaveURL} source='app' />}
+      </Row>
+      <Row>
+        {arweaveURL !== 'none' &&
+        <p>Your page is now permanently hosted on the permaweb and can be accessed from anywhere by using the below URL.
+        {'https://' + window.location.href + '/#/'+props.domainName}</p>}
+      </Row>
       </React.Fragment>
     )
   }
