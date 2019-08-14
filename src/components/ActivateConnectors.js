@@ -57,7 +57,9 @@ function ActivateConnectors(props) {
           <h4>How do I do this?</h4>
           <p> The Dapp will walk you through it but below are the steps</p>
           <ol>
-            <li> Pick an ENS domain/subdomain to registering</li>
+            <li> Pick an ENS domain/subdomain to register and execute the transactions needed to register<br />
+            <span>You'll be prompted a couple of times during the domain registration process.  If registering a domain name,the second transaction will include
+              the total ETH required to register the domain for 1 year.</span></li>
             <li> Provide your Arweave key file<br />
             <span>Note, this key file is never leaving your device.  The Dapp is just using it to talk to Arweave.</span></li>
             <li> Upload your text/html file to the permaweb</li>
