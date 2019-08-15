@@ -12,7 +12,6 @@ function ActivateConnectors(props) {
   if (props.source === 'router'){
     context.setConnector('Network')
   }
- // else context.setFirstValidConnector(['Injected','PortisConnector','Network'])
   if (context.error) {
     console.error("Error!");
   }

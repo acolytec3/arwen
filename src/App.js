@@ -1,11 +1,9 @@
 import React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
-//import WalletConnectQRCodeModal from "@walletconnect/qrcode-modal";
 import Web3Provider from "web3-react";
 import connectors from "./Connectors.js";
 import ActivateConnectors from "./components/ActivateConnectors.js";
 import ENSRegistrationComponent from "./components/ENSRegistrationComponent.js";
-import SetArweaveComponent from "./components/SetArweaveComponent.js";
 import ArweaveRouterComponent from "./components/ArweaveRouterComponent"
 import "./index.css";
 import { Container, Row, Col } from 'react-bootstrap';
