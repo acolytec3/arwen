@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import connectors from "../Connectors.js";
 import { useWeb3Context } from "web3-react";
-import { Button, Modal, Row } from 'react-bootstrap';
+import { Button, Modal, Row, ButtonToolbar } from 'react-bootstrap';
 
 function ActivateConnectors(props) {
   const context = useWeb3Context();
@@ -12,7 +12,7 @@ function ActivateConnectors(props) {
   if (props.source === 'router'){
     context.setConnector('Network')
   }
-  else context.setFirstValidConnector(['Injected','Network'])
+ // else context.setFirstValidConnector(['Injected','PortisConnector','Network'])
   if (context.error) {
     console.error("Error!");
   }
@@ -24,16 +24,34 @@ function ActivateConnectors(props) {
   return (
     <React.Fragment>
       <Row><div className="container text-center">
+        {!context.active && (
+          <p>Please open Metamask or Portis</p>
+        )}
+        {!context.active && (
+        <ButtonToolbar style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent:'center'
+        }}>
+        <Button onClick={() => context.setConnector('Injected')}>
+            Metamask
+        </Button>
+        <Button onClick={() => context.setConnector('Portis')}>
+            Portis
+        </Button>
+        </ButtonToolbar>)}
+      </div></Row>
+      <Row><div className="container text-center">
         {context.error && (
-          <p>Please verify that you have Metamask unlocked and try again</p>
+          <p>Something went wrong.  Please refresh the page and unlock Metamask or Portis again.</p>
         )}
       </div></Row>
       <Row><div className="container text-center">
       {(context.active && (context.connectorName === 'Network')) && 
-      <p>You do not currently have Metamask activated.  Please unlock Metamask in order to begin ENS domain registration process.</p>
+      <p>You do not currently have Metamask or Portis activated.  Please unlock Metamask or Portis in order to begin ENS domain registration process.</p>
       }
       </div></Row>
-      {(context.connectorName === 'Injected') &&
+      {(context.connectorName !== 'Network') &&
       <Modal 
         size="lg" 
         centered show={show} 

@@ -2,7 +2,7 @@ import { Connectors } from "web3-react";
 //import TrezorApi from "trezor-connect";
 //import WalletConnectApi from "@walletconnect/web3-subprovider";
 //import FortmaticApi from "fortmatic";
-//import PortisApi from "@portis/web3";
+import PortisApi from "@portis/web3";
 
 const {
   InjectedConnector,
@@ -11,7 +11,7 @@ const {
  // LedgerConnector,
  // WalletConnectConnector,
  // FortmaticConnector,
- // PortisConnector
+  PortisConnector
 } = Connectors;
 
 const supportedNetworkURLs = {
@@ -55,19 +55,19 @@ const Fortmatic = new FortmaticConnector({
   apiKey: "",
   logoutOnDeactivation: false
 });
-
+*/
 const Portis = new PortisConnector({
   api: PortisApi,
-  dAppId: "",
-  network: "mainnet"
+  dAppId: "c5ae5710-95ad-43ff-8d6b-e7657ab429b4",
+  network: "ropsten"
 });
-*/
+
 export default {
   Injected,
   Network,
 /*  Trezor,
   Ledger,
   WalletConnect,
-  Fortmatic,
-  Portis*/
+  Fortmatic,*/
+  Portis
 };

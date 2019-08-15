@@ -97,7 +97,7 @@ function ENSRegistrationComponent() {
     setDomain(ensDomainName)
  }
 
-  if (context.active && (context.connectorName === 'Injected')){
+  if (context.active && (context.connectorName !== 'Network')){
   return (
   <Container>
       <Row>
@@ -135,7 +135,7 @@ function ENSRegistrationComponent() {
             2 Transactions - Register Subdomain; Set resolver
            </Form.Text>
            <div className='container pt-2 text-center '>
-            <Button type="submit">Register Subdomain</Button>
+            <Button type="submit" disabled={ensSpinner.per > 0}>Register Subdomain</Button>
           </div>
         </Form>
         </Col>

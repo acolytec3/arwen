@@ -61,9 +61,9 @@ function SetArweaveComponent (props) {
   if (context.active){
     return (
       <React.Fragment>
-        {context.connectorName === 'Injected' &&
+        {context.connectorName !== 'Network' &&
           <div className='container mt-4 text-center'><h3>Link ENS to hosted Arweave page</h3></div>}
-        {context.connectorName === 'Injected' &&              
+        {context.connectorName !== 'Network' &&              
           <Form onSubmit={handleArweaveSubmit}>
            <Row>
             <Col>

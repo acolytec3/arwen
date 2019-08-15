@@ -125,7 +125,7 @@ function ArweaveComponent (props)
       ]);
 
 
-    if (context.active && (context.connectorName === 'Injected')){
+    if (context.active && (context.connectorName !== 'Network')){
     return (
         <React.Fragment>
           <div className='container mt-3 text-center'><h3>Arweave registration/file deployment</h3></div>
