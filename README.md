@@ -4,7 +4,7 @@ ArwENS is a one-stop shop for registering ENS domain/subdomains, storing text or
 and then linking your newly minted ENS domain to your Arweave content.
 
 # Important Note
-This Dapp only supports Ropsten ENS domains.  If we win the the Grow Ethereum hackathon content, we'll spend some real ETH and deploy on Mainnet. :)
+This Dapp only supports Ropsten ENS domains.  It's a submission for the [Grow Ethereum hackathon contest](https://gitcoin.co/issue/ArweaveTeam/Bounties/11/3273). If we win, we'll spend some real ETH and deploy on Mainnet. :)
 
 ## Features
 
