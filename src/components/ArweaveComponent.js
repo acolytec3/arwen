@@ -110,10 +110,6 @@ function ArweaveComponent (props)
         return response.status
     }
 
-    async function arQLquery(){
-        return null
-    }
-
     const style = useMemo(() => ({
         ...baseStyle,
         ...(isDragActive ? activeStyle : {}),
