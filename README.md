@@ -15,9 +15,11 @@ This Dapp only supports Ropsten ENS domains.  If we win the the Grow Ethereum ha
 5. Supports ENS domain to Arweave file resolution (see gifs)
 
 Registering an ENS domain
+
 ![](registration.gif)
 
 Using ENS name resolution on your Arweave content
+
 ![](router.gif)
 
 ## Getting Started
