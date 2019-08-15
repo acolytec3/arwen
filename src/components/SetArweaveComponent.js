@@ -114,7 +114,7 @@ function SetArweaveComponent (props) {
       <Row>
         {aTx &&
         <p>Your page is now permanently hosted on the permaweb and can be accessed from anywhere by using the below URL.
-        {'https://' + window.location.href +props.domainName}</p>}
+        {window.location.href +props.domainName}</p>}
       </Row>
       </React.Fragment>
     )
