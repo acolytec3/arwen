@@ -24,9 +24,6 @@ function ActivateConnectors(props) {
     <React.Fragment>
       <Row><div className="container text-center">
         {!context.active && (
-          <p>Please open Metamask or Portis</p>
-        )}
-        {!context.active && (
         <ButtonToolbar style={{
           display: 'flex',
           alignItems: 'center',
@@ -66,7 +63,7 @@ function ActivateConnectors(props) {
           </p>
           <h4>What you need to get started</h4>
           <ol>
-            <li> Metamask - you've already unlocked this if you're seeing this</li>
+            <li> A Metamask or Portis wallet</li>
             <li> An Arweave wallet with some AR in it<br />
             <span> Get a free one <a href="https://tokens.arweave.org" target="_blank">here</a> with 1 AR so you can try it out</span></li>
             <li> Something you want to host permanently on the permaweb</li>
