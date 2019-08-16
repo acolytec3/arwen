@@ -34,5 +34,3 @@ Using ENS name resolution on your Arweave content
 5. Activate your preferred Ethereum wallet (Metamask/Ports)
 6. Follow the prompts.
 7. Once yuo've deployed a file to the permaweb, access it using your ENS domain!
-
-## Future plans
