@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/arwen/static/css/main.34de6062.chunk.css",
-    "main.js": "/arwen/static/js/main.edafbb2f.chunk.js",
-    "main.js.map": "/arwen/static/js/main.edafbb2f.chunk.js.map",
+    "main.js": "/arwen/static/js/main.68c4ad1c.chunk.js",
+    "main.js.map": "/arwen/static/js/main.68c4ad1c.chunk.js.map",
     "runtime~main.js": "/arwen/static/js/runtime~main.e3db19f7.js",
     "runtime~main.js.map": "/arwen/static/js/runtime~main.e3db19f7.js.map",
     "static/js/2.f6b73be3.chunk.js": "/arwen/static/js/2.f6b73be3.chunk.js",
     "static/js/2.f6b73be3.chunk.js.map": "/arwen/static/js/2.f6b73be3.chunk.js.map",
     "index.html": "/arwen/index.html",
-    "precache-manifest.76d685753b9c823436076a26896cdefe.js": "/arwen/precache-manifest.76d685753b9c823436076a26896cdefe.js",
+    "precache-manifest.938a16284291a7fcbe9d9e7462e43071.js": "/arwen/precache-manifest.938a16284291a7fcbe9d9e7462e43071.js",
     "service-worker.js": "/arwen/service-worker.js",
     "static/css/main.34de6062.chunk.css.map": "/arwen/static/css/main.34de6062.chunk.css.map"
   }
