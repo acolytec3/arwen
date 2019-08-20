@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a46f94d942444e50fc7ca9fd821c0f89",
+    "revision": "5d5c9e3e99a30b63441b853c915bc819",
     "url": "/arwen/index.html"
   },
   {
-    "revision": "72726be4e30a2e01981a",
+    "revision": "6431ba173573a5c56b9e",
     "url": "/arwen/static/css/main.34de6062.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/arwen/static/js/2.f6b73be3.chunk.js"
   },
   {
-    "revision": "72726be4e30a2e01981a",
-    "url": "/arwen/static/js/main.59db5d84.chunk.js"
+    "revision": "6431ba173573a5c56b9e",
+    "url": "/arwen/static/js/main.be8367d7.chunk.js"
   },
   {
     "revision": "b4376a4dce25a5049e56",
