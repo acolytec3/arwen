@@ -20,10 +20,10 @@ function GetArweaveResource (props) {
     let page = trxn.get('data', {decode: true, string: true})
     setArweavePage(page);
     console.log(arweavePage)
-    if (props.source === 'router'){
-      window.open('https://arweave.net/'+props.arweaveHash, '_blank')
-    }
-    else window.open('https:////arweave.net/'+props.arweaveHash, '_blank')
+//    if (props.source === 'router'){
+//      window.open('https://arweave.net/'+props.arweaveHash, '_blank')
+//    }
+//    else window.open('https:////arweave.net/'+props.arweaveHash, '_blank')
     
   })
   .catch(error => {
@@ -36,7 +36,7 @@ function GetArweaveResource (props) {
       {arweavePage === 'error' && <p>Still lost in the permaweb</p>}
     </React.Fragment>
     )}
-  else return null
+  else return <div dangerouslySetInnerHTML={{ __html:arweavePage }}></div>
 
 }
 
