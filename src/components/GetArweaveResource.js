@@ -6,6 +6,8 @@ function GetArweaveResource (props) {
   const [arweavePage, setArweavePage] = React.useState('')
   const arw = Arweave.init({
     host: 'arweave.net',
+    port: 443,
+    protocol: 'https',
   });
   console.log(props.arweaveHash)
   arw.transactions.get(props.arweaveHash)
@@ -19,9 +21,9 @@ function GetArweaveResource (props) {
     setArweavePage(page);
     console.log(arweavePage)
     if (props.source === 'router'){
-      window.open('https://arweave.net/'+props.arweaveHash, '_self')
+      window.open('https://arweave.net/'+props.arweaveHash, '_blank')
     }
-    else window.open('https://arweave.net/'+props.arweaveHash, '_blank')
+    else window.open('https:////arweave.net/'+props.arweaveHash, '_blank')
     
   })
   .catch(error => {
