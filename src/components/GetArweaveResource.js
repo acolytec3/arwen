@@ -25,7 +25,7 @@ function GetArweaveResource (props) {
 //    }
 //    else window.open('https:////arweave.net/'+props.arweaveHash, '_blank')
     
-ya  })
+  })
   .catch(error => {
     console.log(error)
     setArweavePage('error')
