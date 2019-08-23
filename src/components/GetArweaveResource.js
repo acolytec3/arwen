@@ -21,11 +21,11 @@ function GetArweaveResource (props) {
     setArweavePage(page);
     console.log(arweavePage)
 //    if (props.source === 'router'){
-//      window.open('https://arweave.net/'+props.arweaveHash, '_blank')
+//      window.open('https://arweave.net/'+props.arweaveHash, '_self')
 //    }
 //    else window.open('https:////arweave.net/'+props.arweaveHash, '_blank')
     
-  })
+ya  })
   .catch(error => {
     console.log(error)
     setArweavePage('error')
@@ -36,8 +36,8 @@ function GetArweaveResource (props) {
       {arweavePage === 'error' && <p>Still lost in the permaweb</p>}
     </React.Fragment>
     )}
-  else return <div dangerouslySetInnerHTML={{ __html:arweavePage }}></div>
-
+    else return <div dangerouslySetInnerHTML={{ __html:arweavePage }}></div>
+  //  else return null
 }
 
 export default GetArweaveResource;
