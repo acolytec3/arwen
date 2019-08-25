@@ -52,6 +52,8 @@ function ArweaveComponent (props)
 
     var arw = Arweave.init({
       host: 'arweave.net',
+      port: 443,
+      protocol: 'https',
     });
 
     const onDrop = useCallback(acceptedFiles => {

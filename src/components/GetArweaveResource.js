@@ -6,6 +6,8 @@ function GetArweaveResource (props) {
   const [arweavePage, setArweavePage] = React.useState('')
   const arw = Arweave.init({
     host: 'arweave.net',
+    port: 443,
+    protocol: 'https',
   });
   console.log(props.arweaveHash)
   arw.transactions.get(props.arweaveHash)
@@ -18,24 +20,21 @@ function GetArweaveResource (props) {
     let page = trxn.get('data', {decode: true, string: true})
     setArweavePage(page);
     console.log(arweavePage)
-    if (props.source === 'router'){
-      window.open('https://arweave.net/'+props.arweaveHash, '_self')
-    }
-    else window.open('https://arweave.net/'+props.arweaveHash, '_blank')
-    
   })
   .catch(error => {
     console.log(error)
     setArweavePage('error')
   })
   if (arweavePage === 'error'){
-  return (
+    return (
     <React.Fragment>
       {arweavePage === 'error' && <p>Still lost in the permaweb</p>}
     </React.Fragment>
     )}
-  else return null
-
+    else if (props.source === "router") {
+      return (<iframe width="100%" height="100%" frameborder="0" srcdoc={arweavePage} src={'https://arweave.net/'+props.arweaveHash} >></iframe>)
+    }
+    else return null
 }
 
 export default GetArweaveResource;
