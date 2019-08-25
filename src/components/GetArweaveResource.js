@@ -36,8 +36,10 @@ function GetArweaveResource (props) {
       {arweavePage === 'error' && <p>Still lost in the permaweb</p>}
     </React.Fragment>
     )}
-    else return <div dangerouslySetInnerHTML={{ __html:arweavePage }}></div>
-  //  else return null
+//    else return <div dangerouslySetInnerHTML={{ __html:arweavePage }}></div>
+//    else return null
+    else return <iframe width="100%" height="100%" frameborder="0" srcdoc={arweavePage} src={'https://arweave.net/'+props.arweaveHash} >
+    ></iframe>
 }
 
 export default GetArweaveResource;
