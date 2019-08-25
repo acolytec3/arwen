@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import Arweave from 'arweave/web';
 import { useWeb3Context } from "web3-react";
 import SetArweaveComponent from "../components/SetArweaveComponent.js";
+import getIpfsCid from "../lib/ipfs.ts";
 
 const baseStyle = {
     flex: 1,
@@ -42,6 +43,7 @@ function ArweaveComponent (props)
     const [balance, setBalance] = React.useState()
     const [data, setData] = React.useState()
     const [arweaveTxn, setTxn] = React.useState('')
+    const [Cid, setCid] = React.useState()
 
     React.useEffect(() => {
         if (wallet){
@@ -74,8 +76,12 @@ function ArweaveComponent (props)
             else {
                 var contents = event.target.result
                 setData(contents)
-                var txn = generateTransaction(wallet.privateKey, contents, {'name':'Content-Type', 'value':acceptedFiles[0].type})
+                getIpfsCid(contents)
+                .then(ipfsCid => {
+                  setCid(ipfsCid)
+                  generateTransaction(wallet.privateKey, contents, {'name':'Content-Type', 'value':acceptedFiles[0].type, 'cid':ipfsCid})
                 .then(txn => setTxn(txn))
+                })
             }
         }
         reader.readAsText(acceptedFiles[0])
@@ -97,6 +103,7 @@ function ArweaveComponent (props)
         console.log(fileData)
         let transaction = await arw.createTransaction({ data : fileData }, privateKey)
         transaction.addTag(tags.name, tags.value)
+        transaction.addTag('IPFS-Add',tags.cid)
         console.log('This transaction will cost ' + transaction.reward + ' winston')
         await arw.transactions.sign(transaction, wallet.privateKey)
         console.log(transaction)
@@ -175,7 +182,7 @@ function ArweaveComponent (props)
             }</Row>
           {(arweaveTxn !== '') && <Row>
             <Col>
-              <SetArweaveComponent domainName={props.domainName} txid={arweaveTxn.id}/>
+              <SetArweaveComponent domainName={props.domainName} txid={arweaveTxn.id} ipfsCid={Cid}/>
             </Col>
           </Row>}
         </React.Fragment>
