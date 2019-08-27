@@ -4,6 +4,7 @@ import { useWeb3Context } from "web3-react";
 import GetArweaveResource from './GetArweaveResource.js'
 import { abi } from "../PublicResolver"
 import { Button, Form, Row, Col, Alert } from 'react-bootstrap'
+const contentHash = require('content-hash')
 
 function SetArweaveComponent (props) {
   const context = useWeb3Context();
@@ -35,10 +36,19 @@ function SetArweaveComponent (props) {
   function associateArweaveWithENS (arweaveUrl)
   {
     const signer = context.library.getSigner()
-    var nameHash = ethers.utils.namehash(ensDomainName)
-    console.log('Namehash of ' + ensDomainName + ' is ' + nameHash)
+    var nameHash = ethers.utils.namehash(props.domainName)
+    console.log('Namehash of ' + props.domainName + ' is ' + nameHash)
     const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, signer)
     publicResolver.setText(nameHash,'url',arweaveUrl)
+    .then(txHash => {
+      console.log(txHash)
+      setaTx(true)
+    })
+    .catch(error => {
+      console.log(error)
+      setEnsDomainName('error')
+    })
+    publicResolver.setContenthash(nameHash,contentHash.fromIpfs(props.ipfsCid,))
     .then(txHash => {
       console.log(txHash)
       setaTx(true)

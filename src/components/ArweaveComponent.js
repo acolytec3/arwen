@@ -3,8 +3,9 @@ import { Button, Row, Col } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import Arweave from 'arweave/web';
 import { useWeb3Context } from "web3-react";
-import SetArweaveComponent from "../components/SetArweaveComponent.js";
-import getIpfsCid from "../lib/ipfs.ts";
+import ENSRegistrationComponent from './ENSRegistrationComponent.js';
+import Unixfs from 'ipfs-unixfs';
+const ipid = require('ipld-dag-pb')
 
 const baseStyle = {
     flex: 1,
@@ -43,7 +44,7 @@ function ArweaveComponent (props)
     const [balance, setBalance] = React.useState()
     const [data, setData] = React.useState()
     const [arweaveTxn, setTxn] = React.useState('')
-    const [Cid, setCid] = React.useState()
+    const [cid, setCid] = React.useState()
 
     React.useEffect(() => {
         if (wallet){
@@ -76,9 +77,12 @@ function ArweaveComponent (props)
             else {
                 var contents = event.target.result
                 setData(contents)
-                getIpfsCid(contents)
+                var file = new Unixfs('file',contents)
+                var node = new ipid.DAGNode(file.marshal());
+                ipid.util.cid(ipid.util.serialize(node), {cidVersion:0})
                 .then(ipfsCid => {
-                  setCid(ipfsCid)
+                  setCid(ipfsCid.toBaseEncodedString())
+                  console.log('IPFS CID for this transaction is: ' + cid)
                   generateTransaction(wallet.privateKey, contents, {'name':'Content-Type', 'value':acceptedFiles[0].type, 'cid':ipfsCid})
                 .then(txn => setTxn(txn))
                 })
@@ -163,6 +167,7 @@ function ArweaveComponent (props)
             <ul>
                 <li>Transaction ID: <a href={"https://arweave.net/tx/" + arweaveTxn.id} target="_blank">{arweaveTxn.id}</a></li> 
                 <li>Transaction Cost: {arweaveTxn.reward} winston</li>
+                <li>IPFS CID: {cid}</li>
             </ul>
             }
           <Row>{arweaveTxn && 
@@ -181,9 +186,7 @@ function ArweaveComponent (props)
                 >Start Over</Button></div></Col>
             }</Row>
           {(arweaveTxn !== '') && <Row>
-            <Col>
-              <SetArweaveComponent domainName={props.domainName} txid={arweaveTxn.id} ipfsCid={Cid}/>
-            </Col>
+              <ENSRegistrationComponent txid={arweaveTxn.id} ipfsCid={cid} />
           </Row>}
         </React.Fragment>
     )}

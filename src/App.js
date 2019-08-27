@@ -3,7 +3,7 @@ import { HashRouter, Switch, Route } from 'react-router-dom';
 import Web3Provider from "web3-react";
 import connectors from "./Connectors.js";
 import ActivateConnectors from "./components/ActivateConnectors.js";
-import ENSRegistrationComponent from "./components/ENSRegistrationComponent.js";
+import ArweaveComponent from "./components/ArweaveComponent.js";
 import ArweaveRouterComponent from "./components/ArweaveRouterComponent"
 import "./index.css";
 import { Container, Row, Col } from 'react-bootstrap';
@@ -25,7 +25,7 @@ function App() {
         </Row>
         <Row>
           <Col>
-            <ENSRegistrationComponent />
+            <ArweaveComponent />
           </Col>
         </Row>
 

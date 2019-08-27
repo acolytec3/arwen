@@ -6,6 +6,7 @@
   "dependencies": {
     "@portis/web3": "^2.0.0-beta.37",
     "arweave": "^1.4.1",
+    "content-hash": "^2.4.3",
     "ethers": "^4.0.33",
     "gh-pages": "^2.1.1",
     "ipfs-unixfs": "^0.1.16",

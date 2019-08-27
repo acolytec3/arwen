@@ -4,9 +4,9 @@ import { useWeb3Context } from "web3-react";
 import { registrarAbi } from "../Registrar.js"
 import { Alert, Form, FormControl, Button, ProgressBar, Row, Col, Container } from 'react-bootstrap';
 import { ethControllerAbi } from '../EthController.js'
-import ArweaveComponent from "../components/ArweaveComponent"
+import SetArweaveComponent from "../components/SetArweaveComponent"
 
-function ENSRegistrationComponent() {
+function ENSRegistrationComponent(props) {
   const context = useWeb3Context();
   const [ensSubDomainName, setEnsSubDomainName] = React.useState()
   const [ensDomainName, setEnsDomainName] = React.useState()
@@ -147,7 +147,7 @@ function ENSRegistrationComponent() {
       {ensSpinner.per === 100 && 
       <Row>
           <Col>
-            <ArweaveComponent domainName={domain}/>
+            <SetArweaveComponent domainName={domain} txid={props.txid} ipfsCid={props.ipfsCid}/>
           </Col>
       </Row>}
    </Container>
