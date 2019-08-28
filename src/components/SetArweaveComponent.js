@@ -11,6 +11,7 @@ function SetArweaveComponent (props) {
   const [arweaveURL, setarweaveURL] = React.useState(props.txid)
   const [ensDomainName, setEnsDomainName] = React.useState(props.domainName)
   const [aTx, setaTx] = React.useState(false)
+  const [ipfsError, setIpfsError] = React.useState()
 
   const handleArweaveChange = evt => {
     setarweaveURL(evt.target.value)
@@ -47,14 +48,15 @@ function SetArweaveComponent (props) {
       console.log('Setting Arweave hash on ENS domain failed with error: ' + error)
       setEnsDomainName('error')
     })
-    publicResolver.setContenthash(nameHash,'0x'+contentHash.fromIpfs(props.ipfsCid))
+    publicResolver.setContenthash(nameHash,contentHash.fromIpfs(props.ipfsCid))
     .then(txHash => {
       console.log(txHash)
       setaTx(true)
     })
     .catch(error => {
-      console.log('Setting IPFS content ${props.ipfsCid} hash failed.')
+      console.log('Setting IPFS content hash failed.')
       console.log(error)
+      setIpfsError(error)
       setEnsDomainName('error')
     })
    }
@@ -106,7 +108,7 @@ function SetArweaveComponent (props) {
                Link ENS to Arweave
              </Button>
              <Alert show={ensDomainName === 'error'} key='domainalert' variant='danger'>
-              Something went wrong!  Please try again.
+              Something went wrong!  Please try again. {JSON.stringify(ipfsError)}
             </Alert>
           </Row>
         </Form>}
