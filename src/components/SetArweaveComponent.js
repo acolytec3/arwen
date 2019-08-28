@@ -29,7 +29,6 @@ function SetArweaveComponent (props) {
 
   const handleENSSubmit = (evt) => {
     evt.preventDefault();
-    getArweaveFromENS();
     console.log('An ENS Domain name of ' + ensDomainName + 'was entered')
   }
 
@@ -41,19 +40,20 @@ function SetArweaveComponent (props) {
     const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, signer)
     publicResolver.setText(nameHash,'url',arweaveUrl)
     .then(txHash => {
-      console.log(txHash)
+      console.log('Tx hash for setting Arweave hash is: '+txHash)
       setaTx(true)
     })
     .catch(error => {
-      console.log(error)
+      console.log('Setting Arweave hash on ENS domain failed with error: ' + error)
       setEnsDomainName('error')
     })
-    publicResolver.setContenthash(nameHash,contentHash.fromIpfs(props.ipfsCid,))
+    publicResolver.setContenthash(nameHash,'0x'+contentHash.fromIpfs(props.ipfsCid))
     .then(txHash => {
       console.log(txHash)
       setaTx(true)
     })
     .catch(error => {
+      console.log('Setting IPFS content ${props.ipfsCid} hash failed.')
       console.log(error)
       setEnsDomainName('error')
     })
@@ -112,14 +112,12 @@ function SetArweaveComponent (props) {
         </Form>}
       <Row>
         <div className='container py-3 text-center'>
-          <Button variant="primary" type="submit" onClick={handleENSSubmit}>Retrieve Arweave Resource</Button>
+          <Button variant="primary" type="submit" onClick={getArweaveFromENS}>Retrieve Arweave Resource</Button>
         </div>
       </Row>
       <Row>
         {arweaveURL !== 'none' && 
         <p>The Arweave transction ID is: {arweaveURL}</p>}
-         {arweaveURL !== 'none' && 
-        <GetArweaveResource arweaveHash={arweaveURL} source='app' />}
       </Row>
       <Row>
         {aTx &&

@@ -2,7 +2,7 @@
   "name": "arwens",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://acolytec3.github.io/arwen",
+  "homepage": "https://eth.taxi",
   "dependencies": {
     "@portis/web3": "^2.0.0-beta.37",
     "arweave": "^1.4.1",

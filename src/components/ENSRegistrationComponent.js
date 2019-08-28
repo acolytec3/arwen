@@ -16,6 +16,7 @@ function ENSRegistrationComponent(props) {
 
   const handleEnsSubDomainChange = evt => {
     setEnsSubDomainName(evt.target.value)
+    setDomain(ensSubDomainName)
     console.log('Setting ENS Domain Name to ' + ensSubDomainName)
   }
 
@@ -144,7 +145,7 @@ function ENSRegistrationComponent(props) {
         {ensSpinner.per > 0 && <div className='container text-center'>
         <ProgressBar now={ensSpinner.per} label={ensSpinner.state} /></div>}
       </Row>
-      {ensSpinner.per === 100 && 
+      {ensSpinner.per > -1 && 
       <Row>
           <Col>
             <SetArweaveComponent domainName={domain} txid={props.txid} ipfsCid={props.ipfsCid}/>
