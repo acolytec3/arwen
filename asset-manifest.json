@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/arwen/static/css/main.34de6062.chunk.css",
-    "main.js": "/arwen/static/js/main.2e29f5ae.chunk.js",
-    "main.js.map": "/arwen/static/js/main.2e29f5ae.chunk.js.map",
-    "runtime~main.js": "/arwen/static/js/runtime~main.e3db19f7.js",
-    "runtime~main.js.map": "/arwen/static/js/runtime~main.e3db19f7.js.map",
-    "static/js/2.f6b73be3.chunk.js": "/arwen/static/js/2.f6b73be3.chunk.js",
-    "static/js/2.f6b73be3.chunk.js.map": "/arwen/static/js/2.f6b73be3.chunk.js.map",
-    "index.html": "/arwen/index.html",
-    "precache-manifest.57dcd3f011d5e950c570117e5ee2963e.js": "/arwen/precache-manifest.57dcd3f011d5e950c570117e5ee2963e.js",
-    "service-worker.js": "/arwen/service-worker.js",
-    "static/css/main.34de6062.chunk.css.map": "/arwen/static/css/main.34de6062.chunk.css.map"
+    "main.css": "/static/css/main.34de6062.chunk.css",
+    "main.js": "/static/js/main.9696006e.chunk.js",
+    "main.js.map": "/static/js/main.9696006e.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.3344bae8.chunk.js": "/static/js/2.3344bae8.chunk.js",
+    "static/js/2.3344bae8.chunk.js.map": "/static/js/2.3344bae8.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.a319dc50b772f441d8857d165e2e77d0.js": "/precache-manifest.a319dc50b772f441d8857d165e2e77d0.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.34de6062.chunk.css.map": "/static/css/main.34de6062.chunk.css.map"
   }
 }
