@@ -161,8 +161,6 @@ function ArweaveComponent (props)
                 {isDragReject && "Please only drop HTML or Text files here"}
             </div>
           </div>}
-          {data && <p>The contents of your file are below<p></p>
-            <p></p>{data}</p>}
           {arweaveTxn && 
             <ul>
                 <li>Transaction ID: <a href={"https://arweave.net/tx/" + arweaveTxn.id} target="_blank">{arweaveTxn.id}</a></li> 

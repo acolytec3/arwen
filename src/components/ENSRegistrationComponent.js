@@ -145,7 +145,7 @@ function ENSRegistrationComponent(props) {
         {ensSpinner.per > 0 && <div className='container text-center'>
         <ProgressBar now={ensSpinner.per} label={ensSpinner.state} /></div>}
       </Row>
-      {ensSpinner.per > -1 && 
+      {ensSpinner.per === 100 && 
       <Row>
           <Col>
             <SetArweaveComponent domainName={domain} txid={props.txid} ipfsCid={props.ipfsCid}/>

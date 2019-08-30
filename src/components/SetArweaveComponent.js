@@ -33,12 +33,14 @@ function SetArweaveComponent (props) {
     console.log('An ENS Domain name of ' + ensDomainName + 'was entered')
   }
 
-  function associateArweaveWithENS (arweaveUrl)
+  async function associateArweaveWithENS (arweaveUrl)
   {
     const signer = context.library.getSigner()
+    const provider = ethers.getDefaultProvider()
     var nameHash = ethers.utils.namehash(props.domainName)
     console.log('Namehash of ' + props.domainName + ' is ' + nameHash)
     const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, signer)
+    var gasPrice = await provider.getGasPrice()
     publicResolver.setText(nameHash,'url',arweaveUrl)
     .then(txHash => {
       console.log('Tx hash for setting Arweave hash is: '+txHash)
@@ -48,7 +50,7 @@ function SetArweaveComponent (props) {
       console.log('Setting Arweave hash on ENS domain failed with error: ' + error)
       setEnsDomainName('error')
     })
-    publicResolver.setContenthash(nameHash,contentHash.fromIpfs(props.ipfsCid))
+    publicResolver.setContenthash(nameHash,"0x"+contentHash.fromIpfs(props.ipfsCid),{ gasLimit: 300000, gasPrice: gasPrice })
     .then(txHash => {
       console.log(txHash)
       setaTx(true)
