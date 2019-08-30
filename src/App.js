@@ -10,6 +10,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 function App() {
+  console.log(window.location.host)
   return (
     <HashRouter>
     <Switch>
