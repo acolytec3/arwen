@@ -4,12 +4,14 @@ import { useWeb3Context } from "web3-react";
 import GetArweaveResource from './GetArweaveResource.js'
 import { abi } from "../PublicResolver"
 import { Button, Form, Row, Col, Alert } from 'react-bootstrap'
+const contentHash = require('content-hash')
 
 function SetArweaveComponent (props) {
   const context = useWeb3Context();
   const [arweaveURL, setarweaveURL] = React.useState(props.txid)
   const [ensDomainName, setEnsDomainName] = React.useState(props.domainName)
   const [aTx, setaTx] = React.useState(false)
+  const [ipfsError, setIpfsError] = React.useState()
 
   const handleArweaveChange = evt => {
     setarweaveURL(evt.target.value)
@@ -28,23 +30,35 @@ function SetArweaveComponent (props) {
 
   const handleENSSubmit = (evt) => {
     evt.preventDefault();
-    getArweaveFromENS();
     console.log('An ENS Domain name of ' + ensDomainName + 'was entered')
   }
 
-  function associateArweaveWithENS (arweaveUrl)
+  async function associateArweaveWithENS (arweaveUrl)
   {
     const signer = context.library.getSigner()
-    var nameHash = ethers.utils.namehash(ensDomainName)
-    console.log('Namehash of ' + ensDomainName + ' is ' + nameHash)
+    const provider = ethers.getDefaultProvider()
+    var nameHash = ethers.utils.namehash(props.domainName)
+    console.log('Namehash of ' + props.domainName + ' is ' + nameHash)
     const publicResolver = new ethers.Contract('0x5FfC014343cd971B7eb70732021E26C35B744cc4', abi, signer)
+    var gasPrice = await provider.getGasPrice()
     publicResolver.setText(nameHash,'url',arweaveUrl)
+    .then(txHash => {
+      console.log('Tx hash for setting Arweave hash is: '+txHash)
+      setaTx(true)
+    })
+    .catch(error => {
+      console.log('Setting Arweave hash on ENS domain failed with error: ' + error)
+      setEnsDomainName('error')
+    })
+    publicResolver.setContenthash(nameHash,"0x"+contentHash.fromIpfs(props.ipfsCid),{ gasLimit: 300000, gasPrice: gasPrice })
     .then(txHash => {
       console.log(txHash)
       setaTx(true)
     })
     .catch(error => {
+      console.log('Setting IPFS content hash failed.')
       console.log(error)
+      setIpfsError(error)
       setEnsDomainName('error')
     })
    }
@@ -96,20 +110,18 @@ function SetArweaveComponent (props) {
                Link ENS to Arweave
              </Button>
              <Alert show={ensDomainName === 'error'} key='domainalert' variant='danger'>
-              Something went wrong!  Please try again.
+              Something went wrong!  Please try again. {JSON.stringify(ipfsError)}
             </Alert>
           </Row>
         </Form>}
       <Row>
         <div className='container py-3 text-center'>
-          <Button variant="primary" type="submit" onClick={handleENSSubmit}>Retrieve Arweave Resource</Button>
+          <Button variant="primary" type="submit" onClick={getArweaveFromENS}>Retrieve Arweave Resource</Button>
         </div>
       </Row>
       <Row>
         {arweaveURL !== 'none' && 
         <p>The Arweave transction ID is: {arweaveURL}</p>}
-         {arweaveURL !== 'none' && 
-        <GetArweaveResource arweaveHash={arweaveURL} source='app' />}
       </Row>
       <Row>
         {aTx &&

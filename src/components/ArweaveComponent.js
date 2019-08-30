@@ -3,7 +3,9 @@ import { Button, Row, Col } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import Arweave from 'arweave/web';
 import { useWeb3Context } from "web3-react";
-import SetArweaveComponent from "../components/SetArweaveComponent.js";
+import ENSRegistrationComponent from './ENSRegistrationComponent.js';
+import Unixfs from 'ipfs-unixfs';
+const ipid = require('ipld-dag-pb')
 
 const baseStyle = {
     flex: 1,
@@ -42,6 +44,7 @@ function ArweaveComponent (props)
     const [balance, setBalance] = React.useState()
     const [data, setData] = React.useState()
     const [arweaveTxn, setTxn] = React.useState('')
+    const [cid, setCid] = React.useState()
 
     React.useEffect(() => {
         if (wallet){
@@ -74,8 +77,15 @@ function ArweaveComponent (props)
             else {
                 var contents = event.target.result
                 setData(contents)
-                var txn = generateTransaction(wallet.privateKey, contents, {'name':'Content-Type', 'value':acceptedFiles[0].type})
+                var file = new Unixfs('file',contents)
+                var node = new ipid.DAGNode(file.marshal());
+                ipid.util.cid(ipid.util.serialize(node), {cidVersion:0})
+                .then(ipfsCid => {
+                  setCid(ipfsCid.toBaseEncodedString())
+                  console.log('IPFS CID for this transaction is: ' + cid)
+                  generateTransaction(wallet.privateKey, contents, {'name':'Content-Type', 'value':acceptedFiles[0].type, 'cid':ipfsCid})
                 .then(txn => setTxn(txn))
+                })
             }
         }
         reader.readAsText(acceptedFiles[0])
@@ -97,6 +107,7 @@ function ArweaveComponent (props)
         console.log(fileData)
         let transaction = await arw.createTransaction({ data : fileData }, privateKey)
         transaction.addTag(tags.name, tags.value)
+        transaction.addTag('IPFS-Add',tags.cid)
         console.log('This transaction will cost ' + transaction.reward + ' winston')
         await arw.transactions.sign(transaction, wallet.privateKey)
         console.log(transaction)
@@ -150,12 +161,11 @@ function ArweaveComponent (props)
                 {isDragReject && "Please only drop HTML or Text files here"}
             </div>
           </div>}
-          {data && <p>The contents of your file are below<p></p>
-            <p></p>{data}</p>}
           {arweaveTxn && 
             <ul>
                 <li>Transaction ID: <a href={"https://arweave.net/tx/" + arweaveTxn.id} target="_blank">{arweaveTxn.id}</a></li> 
                 <li>Transaction Cost: {arweaveTxn.reward} winston</li>
+                <li>IPFS CID: {cid}</li>
             </ul>
             }
           <Row>{arweaveTxn && 
@@ -174,9 +184,7 @@ function ArweaveComponent (props)
                 >Start Over</Button></div></Col>
             }</Row>
           {(arweaveTxn !== '') && <Row>
-            <Col>
-              <SetArweaveComponent domainName={props.domainName} txid={arweaveTxn.id}/>
-            </Col>
+              <ENSRegistrationComponent txid={arweaveTxn.id} ipfsCid={cid} />
           </Row>}
         </React.Fragment>
     )}

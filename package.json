@@ -2,10 +2,15 @@
   "name": "arwens",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://eth.taxi",
   "dependencies": {
     "@portis/web3": "^2.0.0-beta.37",
     "arweave": "^1.4.1",
+    "content-hash": "^2.4.3",
     "ethers": "^4.0.33",
+    "gh-pages": "^2.1.1",
+    "ipfs-unixfs": "^0.1.16",
+    "ipld-dag-pb": "^0.18.1",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.10",
     "react-dom": "^16.8.6",
@@ -17,6 +22,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
