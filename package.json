@@ -16,7 +16,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.7",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "web3-react": "^5.0.4"
   },
   "scripts": {
